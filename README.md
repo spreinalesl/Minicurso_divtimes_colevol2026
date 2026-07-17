@@ -32,7 +32,7 @@ conda activate divtimes
 
 - Información de tiempo independiente para definir *constrains* temporales en algunos nodos de la filogenia (**calibration priors**). Esa información de tiempo será incluida directamente en el archivo del árbol como veremos más adelante.
 
-Estos archivos están disponibles en el repositorio en la carpeta [datos](). Para garantizar la estabilidad de los scripts incluidos en este tutorial, recomendamos fuertemente que la **estructura de carpetas y los nombres** tanto de las carpetas como de los archivos **no sean alterados**.
+Estos archivos están disponibles en el repositorio en la carpeta [data](https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/master/data). Para garantizar la estabilidad de los scripts incluidos en este tutorial, recomendamos fuertemente que la **estructura de carpetas y los nombres** tanto de las carpetas como de los archivos **no sean alterados**.
 
 ### Pasos del análisis:
 
