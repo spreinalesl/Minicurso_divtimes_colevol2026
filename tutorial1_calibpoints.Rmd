@@ -1,0 +1,55 @@
+---
+title: "Tutorial1: Establecer priors de calibración"
+author: "Sandra Reinales & Gustavo Ballen"
+output: html_document
+---
+
+```{r klippy_bash, echo=FALSE, include=TRUE}
+klippy::klippy('bash',
+               position = c('top', 'right'),
+               color = 'darkred', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('r',
+               position = c('top', 'right'),
+               color = 'darkred', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+El primer paso para establecer los puntos de calibración es definir qué información de tiempo (edad) independiente tenemos disponible para informar ciertos nodos en la filogenia. Conocer los detalles de la fuente de esa información (e.g. geocronología, estratigrafía, 95% HPD de un análisis previo) es fundamental para decidir qué tipo de distribución estadística representa mejor la incertidumbre asociada dicha información de tiempo. Adicionalmente, tenemos que establecer los nodos que van a ser calibrados y numerarlos.
+
+### Definir el directorio de trabajo
+```{r, class.source='klippy', results='hide'}
+getwd() # Muestra el directorio en el que estamos
+```
+
+```{r, class.source='klippy', results='hide', eval=FALSE}
+# En caso de no estar en el directorio del repositorio del curso
+setwd("/mnt/c/Users/UserName/Minicurso_divtimes_colevol2026")
+```
+
+### Cargar los paquetes
+```{r, class.source='klippy', results='hide'}
+library(ape)
+library(tbea)
+```
+
+### Inspeccionar la filogenia y a numerar los nodos
+```{r fig.height=7, fig.width=6, class.source='klippy'}
+## Leer es arbol inicial
+tree <- read.tree(file="data/startingTree.newick")
+
+## Establece la raiz
+tree <- root(phy=tree, outgroup="Nematistius_pectoralis", resolve.root=TRUE)
+
+## Obtener informacion del arbol
+summary(tree)
+is.rooted(tree)
+is.binary(tree)
+
+## Plotar el arbol
+plot.phylo(x=ladderize(phy=tree, right=FALSE), cex = 0.6)
+```
+
