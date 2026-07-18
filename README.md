@@ -49,7 +49,7 @@ Estos archivos están disponibles en el repositorio en la carpeta [data](https:/
 
 Ya que tenemos el software y los datos requeridos para correr nuestros análisis, los pasos a seguir son:
 
-- Establecer los *priors* de calibración [Tutorial1](http://htmlpreview.github.io/?https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/main/tutorial1_calibpoints.html). Para esto necesitamos definir cuáles nodos van a ser calibrados, escoger la distribución estadística (y su respectivo conjunto de parámetros) que vamos a usar para informar el tiempo en cada uno de los nodos, y finalmente incluir esa información en el archivo del árbol.   
+- Establecer los *priors* de calibración [Tutorial1](http://html-preview.github.io/?https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial1_calibpoints.html). Para esto necesitamos definir cuáles nodos van a ser calibrados, escoger la distribución estadística (y su respectivo conjunto de parámetros) que vamos a usar para informar el tiempo en cada uno de los nodos, y finalmente incluir esa información en el archivo del árbol.   
 
 - Preparar el archivo que contiene los alineamientos.
 
