@@ -43,13 +43,13 @@ conda activate divtimes
 
 - Información de tiempo independiente para definir *constrains* temporales en algunos nodos de la filogenia (**calibration priors**). Esa información de tiempo será incluida directamente en el archivo del árbol como veremos más adelante.
 
-Estos archivos están disponibles en el repositorio en la carpeta [data](https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/tree/e878bc74706531b7a47e7a133e5f22130c5e899f/data). Para garantizar la estabilidad de los scripts incluidos en este tutorial, recomendamos fuertemente que la **estructura de carpetas y los nombres** tanto de las carpetas como de los archivos **no sean alterados**.
+Estos archivos están disponibles en el repositorio en la carpeta [data](https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/tree/main/data). Para garantizar la estabilidad de los scripts incluidos en este tutorial, recomendamos fuertemente que la **estructura de carpetas y los nombres** tanto de las carpetas como de los archivos **no sean alterados**.
 
 ### Pasos del análisis:
 
 Ya que tenemos el software y los datos requeridos para correr nuestros análisis, los pasos a seguir son:
 
-- Establecer los *priors* de calibración [Tutorial1](http://html-preview.github.io/?https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial1_calibpoints.html). Para esto necesitamos definir cuáles nodos van a ser calibrados, escoger la distribución estadística (y su respectivo conjunto de parámetros) que vamos a usar para informar el tiempo en cada uno de los nodos, y finalmente incluir esa información en el archivo del árbol.   
+- Establecer los *priors* de calibración [Tutorial1](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial1_calibpoints.html). Para esto necesitamos definir cuáles nodos van a ser calibrados, escoger la distribución estadística (y su respectivo conjunto de parámetros) que vamos a usar para informar el tiempo en cada uno de los nodos, y finalmente incluir esa información en el archivo del árbol.   
 
 - Preparar el archivo que contiene los alineamientos.
 
