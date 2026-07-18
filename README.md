@@ -18,9 +18,14 @@ En este tutorial vamos a estimar los tiempos de divergencia para el orden Carang
 - Paquete de R [tbea](https://github.com/gaballench/tbea) -> Definir los **priors de calibración** e graficar los resultados del análisis
 - [Tracer](https://beast.community/tracer) -> Para analizar los resultados de la corrida de ```MCMCtree``` y evaluar **convergencia**
 
-Estos programas fueron instalados previamente en un ambiente de ```conda``` disponible en el repositorio. Para usarlo sólo se requiere descomprimirlo y activarlo usando:
+Estos programas fueron instalados previamente en un ambiente de ```conda```. Para descargarlo, descomprimirlo y activarlo seguir las indicaciones a continuación:
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
+cd Minicurso_divtimes_colevol2026
+
+wget https://www.dropbox.com/scl/fi/ragg4mi17x6rko07s8feq/divtimes.tar.gz?rlkey=m0ih9gb7li0iy4y60p5cjuqzv&st=aynui2hb&dl=0
+
+tar -xzvf divtimes.tar.gz
 
 conda activate divtimes
 ```
