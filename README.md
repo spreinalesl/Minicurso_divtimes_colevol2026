@@ -22,11 +22,17 @@ Estos programas fueron instalados previamente en un ambiente de ```conda```. Par
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
 cd Minicurso_divtimes_colevol2026
+```
 
+```{bash, class.source='klippy_bash', eval=FALSE}
 wget https://www.dropbox.com/scl/fi/ragg4mi17x6rko07s8feq/divtimes.tar.gz?rlkey=m0ih9gb7li0iy4y60p5cjuqzv&st=aynui2hb&dl=0
+```
 
+```{bash, class.source='klippy_bash', eval=FALSE}
 tar -xzvf divtimes.tar.gz
+```
 
+```{bash, class.source='klippy_bash', eval=FALSE}
 conda activate divtimes
 ```
 ### Datos:
