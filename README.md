@@ -8,7 +8,7 @@ La mayoría, si no todos, los métodos usados recientemente en biología evoluti
 
 Una de las estrategias más comunes para estimar los tiempos de divergencia de un grupo es asignar restricciones temporales (*constrains*) a uno o más nodos de la filogenia usando información de tiempo independiente o externa al análisis, este procedimiento se denomina **calibración de nodos**. En el caso de las **calibraciones primarias**, dicha información puede provenir de diversas fuentes como i) estimaciones geocronológicas de fósiles, en cuyo caso se usa el **registro fósil más antiguo del clado (nodo)** que queremos calibrar, lo que determina una edad mínima para dicho nodo, ó ii) estimaciones geocronológicas de eventos biogeográficos. En el caso de **calibraciones secundarias**, es posible usar estimaciones de tiempo para el nodo de interés, obtenidas de estudios previos de tiempos de divergencia.
 
-En este tutorial vamos a estimar los tiempos de divergencia para el orden Carangiformes usando calibración de nodos. Los datos provienen de [Ossa-Hernández et al. 2024](https://doi.org/10.1111/jbi.15018). A continuación listamos los elementos necesarios para correr este tipo de análisis en ```MCMCtree```:
+En este tutorial vamos a estimar los tiempos de divergencia para la familia Centropomidae, incluyendo muestreo de familias relacionadas con información fósil y usando calibración de nodos. Los datos provienen de [Ossa-Hernández et al. 2024](https://doi.org/10.1111/jbi.15018). A continuación listamos los elementos necesarios para correr este tipo de análisis en ```MCMCtree```:
 
 ### Programas y paquetes:
 
