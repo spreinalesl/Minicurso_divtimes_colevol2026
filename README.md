@@ -13,19 +13,20 @@ En este tutorial vamos a estimar los tiempos de divergencia para la familia Cent
 ### Programas y paquetes:
 
 - [BASEML](https://github.com/abacus-gene/paml/wiki/BASEML) -> Usado para estimar las tasas de substitución y las loingitudes de rama junto con el gradiente y la matriz Hessianan (i.e. **the approximate likelihood method**). <!-- This estimates will be used in rgene_gamma setting in mcmctree.ctl. The gradient and Hessian contain information about the curvature of the likelihood surface (dos Reis and Yang, 2013, P10) -->
-- [MCMCtree](https://github.com/abacus-gene/paml/wiki/MCMCtree) -> Para estimar/separar tasa evolutiva y tiempo usando **MCMC**
+- [MCMCtree](https://github.com/abacus-gene/paml/wiki/MCMCtree) -> Para estimar/separar tasa evolutiva y tiempo usando `MCMC`
 - Paquete de R [mcmc3r](https://github.com/dosreislab/mcmc3r) -> Para **selección de modelos de reloj** usando el método de *stepping stones*
 - Paquete de R [tbea](https://github.com/gaballench/tbea) -> Definir los **priors de calibración** e graficar los resultados del análisis
-- [Tracer](https://beast.community/tracer) -> Para analizar los resultados de la corrida de ```MCMCtree``` y evaluar **convergencia**
+- [Tracer](https://beast.community/tracer) -> Para analizar los resultados de la corrida de `MCMCtree` y evaluar **convergencia**
+- [Figtree](https://tree.bio.ed.ac.uk/software/figtree/) -> Para visualización de árboles
 
-Estos programas fueron instalados previamente en un ambiente de ```conda```. Para descargarlo, descomprimirlo y activarlo seguir las indicaciones a continuación:
+Estos programas fueron instalados previamente en un ambiente de `conda`. Para descargarlo, descomprimirlo y activarlo seguir las indicaciones a continuación:
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
 cd Minicurso_divtimes_colevol2026
 ```
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
-wget https://www.dropbox.com/scl/fi/ragg4mi17x6rko07s8feq/divtimes.tar.gz?rlkey=m0ih9gb7li0iy4y60p5cjuqzv&st=aynui2hb&dl=0
+wget https://www.dropbox.com/scl/fi/bm1wfgt51ws97nalpplpc/divtimes.tar.gz?rlkey=3k075kob8jkuq8bu418p8j6x6&st=hv0w7snc&dl=0
 ```
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
