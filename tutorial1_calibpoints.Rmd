@@ -218,22 +218,45 @@ using StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames
 
 ```{bash, class.source='klippy', eval=FALSE}
 # leer los datos
-dataset = CSV.read("Sphyraenidae.csv", DataFrame)
+dataset = CSV.read("data/Istiophoridae.tsv", delim = '\t', DataFrame)
+# calcular el punto medio del intervalo de edad de cada fosil para una edad puntual
+data = (dataset[:,6] .+ dataset[:,5])./2
+
+# definir priors
+theta1_prior = RefOffExponential(1, maximum(data), 1) # RefOffExp partiendo de la ocurrencia más antiga
+theta2_prior = 0.0 # theta2 fijado en el presente, el grupo es viviente
+lambda_prior = Normal(0.0, 4.0) # un prior amplio para lambda que debería ser informado por los datos 
+
 # especificar el objeto stratinterval
-barracuda_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
-# amostrar por MCMC
-post_sample = sample_stratinterval(barracuda_interval, 10000, NUTS(), false, false)
+istio_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
+# muestrear por MCMC
+post_sample = sample_stratinterval(istio_interval, 10000, NUTS(), false, false)
 # graficar las cadenas de Markov
 plot(post_sample, plot_title=main_title)
 
 # graficar todo: datos, priors, posteriores
-histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, plot_title=main_title, xlim=xlim_interval, ylim=ylim_interval, label="Data")
-plot!(theta1_prior, plot_title=main_title, label="Prior", linewidth=3)
+histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, label="Data")
+plot!(theta1_prior, label="Prior", linewidth=3)
 density!(post_sample[:,"θ1",:], label="Posterior", linewidth=3)
 
 # examinar las estadísticas sumario de las distribuciones posteriores
-DataFrame(describe(post_sample)[1]
-DataFrame(describe(post_sample)[2]
+julia> describe(post_sample)[1]
+Summary Statistics
+  parameters      mean       std      mcse    ess_bulk    ess_tail      rhat   ess_per_sec 
+      Symbol   Float64   Float64   Float64     Float64     Float64   Float64       Float64 
+
+          θ1   58.6608    0.9301    0.0131   4177.0745   3355.4383    1.0000      331.1459
+           λ   -0.3006    0.1916    0.0030   4351.3636   3344.6220    1.0000      344.9630
+
+
+julia> describe(post_sample)[2]
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5% 
+      Symbol   Float64   Float64   Float64   Float64   Float64 
+
+          θ1   57.6559   57.9813   58.4018   59.0511   61.1161
+           λ   -0.7177   -0.4243   -0.2857   -0.1601    0.0194
+
 ```
 
 El prior de calibración usando este método fue definido de la siguiente forma: `L(0.57600,0.1,0.03609402,0.025)`
