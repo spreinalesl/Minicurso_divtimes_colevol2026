@@ -4,15 +4,8 @@ author: "Sandra Reinales & Gustavo Ballen"
 output: html_document
 ---
 
-```{r klippy_bash, echo=FALSE, include=TRUE}
-klippy::klippy('bash',
-               position = c('top', 'right'),
-               color = 'gray', 
-               tooltip_message = 'Click to copy', tooltip_success = 'Done')
-```
-
 ```{r klippy, echo=FALSE, include=TRUE}
-klippy::klippy('r',
+klippy::klippy(c('r', 'bash'),
                position = c('top', 'right'),
                color = 'gray', 
                tooltip_message = 'Click to copy', tooltip_success = 'Done')
@@ -196,9 +189,11 @@ Los **intervalos estratigráficos** son modelos que permiten estimar el tiempo d
 
 En este ejemplo usamos intervalos estratigráficos implementado en el paquete de `Julia` [StratIntervals](https://github.com/gaballench/StratIntervals.jl) para estimar la edad de origen de la familia Istiophoridae y usarlo para definir el prior de calibración del nodo 56 en nuestra filogenia. Para más detalles sobre cómo funciona el método, los invitamos a visitar el repositorio de `GitHub` y este prepint ^[Ballen, G.A., 2025. A flexible Bayesian method for estimating stratigraphic intervals and their co-occurrence in time. bioRxiv, pp.2025-02.].
 
-Para poder usar este paquete debemos instalar Julia, un lenguaje de programación moderno enfocado en eficiencia [https://julialang.org/downloads/](https://julialang.org/downloads/). Una vez instalado y abierto, podemos instalar el paquete así:
+Istiophoridae tiene $52$ ocurrencias fósiles curadas disponibles en el [Paleo Biology Data Base](https://paleobiodb.org/).
 
-```{julia, class.source='klippy', eval=FALSE}
+Para poder usar este paquete debemos instalar `Julia`, un lenguaje de programación moderno enfocado en eficiencia [https://julialang.org/downloads/](https://julialang.org/downloads/). Una vez instalado y abierto, podemos instalar el paquete así:
+
+```{bash, class.source='klippy', eval=FALSE}
 ## Leer los datos
 ] # el corchete cuadrado cerrando abre el ambiente de instalación de paquetes
 # ahora solo es necesario usar el comando add con el nombre del paquete
@@ -207,7 +202,7 @@ add StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames
 
 Alternativamente, podemos usar la forma funcional de esos comandos:
 
-```{julia, class.source='klippy', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 ## Leer los datos
 using Pkg
 Pkg.add(["StratIntervals", "Turing", "Distributions", "StatsPlots", "Random", "CSV", "DataFrames"])
@@ -217,11 +212,11 @@ Más detalles sobre el paquete y sus funciones puede encontrarse en el sitio web
 
 Cargamos los paquetes y los datos:
 
-```{julia, class.source='klippy', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 using StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames
 ```
 
-```{julia, class.source='klippy', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 # leer los datos
 dataset = CSV.read("Sphyraenidae.csv", DataFrame)
 # especificar el objeto stratinterval
@@ -239,14 +234,6 @@ density!(post_sample[:,"θ1",:], label="Posterior", linewidth=3)
 # examinar las estadísticas sumario de las distribuciones posteriores
 DataFrame(describe(post_sample)[1]
 DataFrame(describe(post_sample)[2]
-```
-
-Istiophoridae tiene $52$ ocurrencias fósiles curadas disponibles en el [Paleo Biology Data Base](https://paleobiodb.org/).
-
-```{r, class.source='klippy'}
-## Leer los datos
-istiophoridae <- read.delim("data/Istiophoridae.tsv", stringsAsFactors=FALSE)
-str(istiophoridae)
 ```
 
 El prior de calibración usando este método fue definido de la siguiente forma: `L(0.57600,0.1,0.03609402,0.025)`
@@ -306,7 +293,7 @@ write.tree(phy=tree, file="data/startingTree.phy")
 
 Finalmente vamos a usar `Bash` para terminar de dar formato a nuestro archivo de árbol. Para eso vamos a la terminar:
 
-```{bash, class.source='klippy_bash'}
+```{bash, class.source='klippy'}
 ## Vamos a cambiar "[" por "(" y "@" por "," en el archivo de arbol
 cd data
 
@@ -320,7 +307,7 @@ sed -i '1s/^/  53  1\n/' startingTree.phy
 
 Podemos usar `Figtree` para revisar que el árbol esté correctamente anotado.
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 figtree startingTree.phy
 ```
 

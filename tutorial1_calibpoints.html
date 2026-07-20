@@ -517,11 +517,7 @@ calibración</h1>
 
 
 <script>
-  addClassKlippyTo("pre.bash");
-  addKlippy('right', 'top', '#BEBEBE', '1', 'Click to copy', 'Done');
-</script>
-<script>
-  addClassKlippyTo("pre.r");
+  addClassKlippyTo("pre.r, pre.bash");
   addKlippy('right', 'top', '#BEBEBE', '1', 'Click to copy', 'Done');
 </script>
 <p>El primer paso para establecer los puntos de calibración es definir
@@ -536,7 +532,9 @@ ser calibrados y numerarlos.</p>
 <h3>Definir el directorio de trabajo</h3>
 <pre class="r klippy"><code>getwd() # Muestra el directorio en el que estamos</code></pre>
 <pre class="r klippy"><code># En caso de no estar en el directorio del repositorio del curso
-setwd(&quot;/mnt/c/Users/UserName/Minicurso_divtimes_colevol2026&quot;)</code></pre>
+setwd(&quot;/mnt/c/Users/UserName/Minicurso_divtimes_colevol2026&quot;)
+# es posible que la carpeta esté en esta localización también:
+setwd(&quot;/home/UserName/Minicurso_divtimes_colevol2026&quot;)</code></pre>
 </div>
 <div id="cargar-los-paquetes" class="section level3">
 <h3>Cargar los paquetes</h3>
@@ -788,16 +786,39 @@ más detalles sobre cómo funciona el método, los invitamos a visitar el
 repositorio de <code>GitHub</code> y este prepint <a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>.</p>
 <p>Istiophoridae tiene <span class="math inline">\(52\)</span>
 ocurrencias fósiles curadas disponibles en el <a href="https://paleobiodb.org/">Paleo Biology Data Base</a>.</p>
-<pre class="r klippy"><code>## Leer los datos
-istiophoridae &lt;- read.delim(&quot;data/Istiophoridae.tsv&quot;, stringsAsFactors=FALSE)
-str(istiophoridae)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    52 obs. of  6 variables:
-##  $ Species : chr  &quot;Histiophorus homalorhamphus-Istiophorus homalorhamphus (3113)&quot; &quot;Ischyrhiza radiata (84045)- dagger_Xiphias radiata Clark 1895&quot; &quot;Xiphiorhynchus sp., Tamesichthys decipens, Hemirhabdorhynchus elliotti, Xiphiorhynchus parvus (13299)&quot; &quot;Hemirhabdorhynchus ypresiansis, Glyptorhynchus bruxelliensis, Glyptorhynchus sp., Hemirhabdorhynchus depressus,&quot;| __truncated__ ...
-##  $ Index   : chr  &quot;I001&quot; &quot;I002&quot; &quot;I003&quot; &quot;I004&quot; ...
-##  $ Locality: chr  &quot;USA (New Jersey)&quot; &quot;USA (Maryland)&quot; &quot;United Kingdom (England)&quot; &quot;Belgium&quot; ...
-##  $ X       : chr  &quot;Thanetian&quot; &quot;Thanetian&quot; &quot;Ypresian&quot; &quot;Ypresian&quot; ...
-##  $ Age.min : num  56 56 47.8 47.8 41.3 ...
-##  $ Age.max : num  59.2 59.2 56 56 47.8 47.8 41.3 41.3 41.3 56 ...</code></pre>
+<p>Para poder usar este paquete debemos instalar <code>Julia</code>, un
+lenguaje de programación moderno enfocado en eficiencia <a href="https://julialang.org/downloads/">https://julialang.org/downloads/</a>.
+Una vez instalado y abierto, podemos instalar el paquete así:</p>
+<pre class="bash klippy"><code>## Leer los datos
+] # el corchete cuadrado cerrando abre el ambiente de instalación de paquetes
+# ahora solo es necesario usar el comando add con el nombre del paquete
+add StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames</code></pre>
+<p>Alternativamente, podemos usar la forma funcional de esos
+comandos:</p>
+<pre class="bash klippy"><code>## Leer los datos
+using Pkg
+Pkg.add([&quot;StratIntervals&quot;, &quot;Turing&quot;, &quot;Distributions&quot;, &quot;StatsPlots&quot;, &quot;Random&quot;, &quot;CSV&quot;, &quot;DataFrames&quot;])</code></pre>
+<p>Más detalles sobre el paquete y sus funciones puede encontrarse en el
+sitio web <a href="https://gaballench.github.io/StratIntervals.jl/stable/">https://gaballench.github.io/StratIntervals.jl/stable/</a>.</p>
+<p>Cargamos los paquetes y los datos:</p>
+<pre class="bash klippy"><code>using StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames</code></pre>
+<pre class="bash klippy"><code># leer los datos
+dataset = CSV.read(&quot;Sphyraenidae.csv&quot;, DataFrame)
+# especificar el objeto stratinterval
+barracuda_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
+# amostrar por MCMC
+post_sample = sample_stratinterval(barracuda_interval, 10000, NUTS(), false, false)
+# graficar las cadenas de Markov
+plot(post_sample, plot_title=main_title)
+
+# graficar todo: datos, priors, posteriores
+histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, plot_title=main_title, xlim=xlim_interval, ylim=ylim_interval, label=&quot;Data&quot;)
+plot!(theta1_prior, plot_title=main_title, label=&quot;Prior&quot;, linewidth=3)
+density!(post_sample[:,&quot;θ1&quot;,:], label=&quot;Posterior&quot;, linewidth=3)
+
+# examinar las estadísticas sumario de las distribuciones posteriores
+DataFrame(describe(post_sample)[1]
+DataFrame(describe(post_sample)[2]</code></pre>
 <p>El prior de calibración usando este método fue definido de la
 siguiente forma: <code>L(0.57600,0.1,0.03609402,0.025)</code></p>
 <pre class="r klippy"><code>calib$calibstring[which(calib$id == &quot;n56&quot;)] &lt;- &quot;&#39;L[0.57600@0.1@0.03609402@0.025]&#39;&quot;</code></pre>
@@ -852,7 +873,7 @@ for(i in calib$id){
 write.tree(phy=tree, file=&quot;data/startingTree.phy&quot;)</code></pre>
 <p>Finalmente vamos a usar <code>Bash</code> para terminar de dar
 formato a nuestro archivo de árbol. Para eso vamos a la terminar:</p>
-<pre class="bash klippy_bash"><code>## Vamos a cambiar &quot;[&quot; por &quot;(&quot; y &quot;@&quot; por &quot;,&quot; en el archivo de arbol
+<pre class="bash klippy"><code>## Vamos a cambiar &quot;[&quot; por &quot;(&quot; y &quot;@&quot; por &quot;,&quot; en el archivo de arbol
 cd data
 
 sed -i &#39;s/\[/(/g&#39; startingTree.phy
@@ -863,7 +884,7 @@ sed -i &#39;s/@/,/g&#39; startingTree.phy
 sed -i &#39;1s/^/  53  1\n/&#39; startingTree.phy</code></pre>
 <p>Podemos usar <code>Figtree</code> para revisar que el árbol esté
 correctamente anotado.</p>
-<pre class="bash klippy_bash"><code>figtree startingTree.phy</code></pre>
+<pre class="bash klippy"><code>figtree startingTree.phy</code></pre>
 </div>
 <div id="referencias" class="section level3">
 <h3>Referencias</h3>
