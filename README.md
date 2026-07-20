@@ -56,10 +56,10 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Preparar el archivo que contiene los alineamientos [Tutorial2](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial2_prep_alim.html).
 
-- Estimar el gradiente y la matriz Hesiana (verosimilitud aproximada) [Tutorial3]().
+- Muestrar a partir del *prior* [Tutorial3](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial3_sampFRprior.html). 
 
-- Seleccionar el modelo de reloj [Tutorial4]().
+- Estimar el gradiente y la matriz Hesiana (verosimilitud aproximada) [Tutorial4](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial4_approxlike.html).
 
-- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia [Tutorial5]().
+- Seleccionar el modelo de reloj [Tutorial5](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial5_modelselc.html).
 
-- Revisar los resultados del análisis [Tutorial6]().
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6]().

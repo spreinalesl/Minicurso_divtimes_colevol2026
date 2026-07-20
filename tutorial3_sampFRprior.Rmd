@@ -1,0 +1,41 @@
+---
+title: "Tutorial3: Muestreando del *prior*"
+author: "Sandra Reinales & Gustavo Ballen"
+output: html_document
+---
+
+```{r klippy_bash, echo=FALSE, include=TRUE}
+klippy::klippy('bash',
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('r',
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+Muestrear del *prior* (*sample from prior*), es decir, correr un análisis de `MCMCtree` sin datos provenientes de las secuencia (`usedata = 0`) es crucial para examinar las medias y los intervalos de confianza (incertidumbre) de los tiempos de divergencia especificados en la distribución *prior*. Esto es importante porque la distribución *prior* usada por `MCMCtree` en el análisis, también llamada **prior efectivo**, difiere de la distribución definida por el usuario. Ese *prior* efectivo es generado por el programa después de conjugar todas las densidades de calibración especificadas por el usuario con el proceso birth-death del árbol (incluyendo los valores de los parámetros especificados en BDparas).La distribución *prior* resultante es una densidad marginal. A veces puede ser necesario modificar la especificación de los *priors* de calibración para que el prior efectivo parezca más razonable.
+
+Vamos a crear un directorio para el análisis, y a copiar el *control file*:
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+## Asumiendo que estamos en el directorio princial del repositorio
+mkdir -p sFRp
+cp data/mcmctree.ctl sFRp/
+```
+
+No necesitamos editar el *control file* porque nuestro template ya está configurado en `usedata=0`. Sólo vamos al directorio y corremos `MCMCtree`
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+cd sFRp
+mcmctree
+```
+
+Después podemos comparar la distribución *prior* y la posterior para detentar interdependencia, o algún sesgo específico.
+
+
+
