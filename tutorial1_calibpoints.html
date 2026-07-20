@@ -593,9 +593,11 @@ print(carangidae_id)</code></pre>
 <pre class="r klippy"><code>istiophoridae_id &lt;- mrca(tree)[&quot;Xiphias_gladius&quot;, &quot;Istiophorus_platypterus&quot;]
 print(istiophoridae_id)</code></pre>
 <pre><code>## [1] 56</code></pre>
-<pre class="r klippy"><code>root_id &lt;- mrca(tree)[&quot;Nematistius_pectoralis&quot;, &quot;Sphyraena_waitii&quot;]</code></pre>
+<pre class="r klippy"><code>root_id &lt;- mrca(tree)[&quot;Nematistius_pectoralis&quot;, &quot;Sphyraena_waitii&quot;]
+print(root_id)</code></pre>
+<pre><code>## [1] 54</code></pre>
 <pre class="r klippy"><code>## Crear un objeto para guardar los IDs y la informacion de los puntos de calibracion
-calib &lt;- data.frame(id=paste(&quot;n&quot;, c(sphyraenidae_id, carangidae_id, istiophoridae_id), sep=&quot;&quot;),
+calib &lt;- data.frame(id=paste(&quot;n&quot;, c(sphyraenidae_id, carangidae_id, istiophoridae_id, root_id), sep=&quot;&quot;),
                     calibstring=NA)</code></pre>
 <p><strong>Por qué es necesario establecer más de un punto de
 calibración?</strong></p>
@@ -708,7 +710,7 @@ límites suaves llamada <code>B</code>, definida como
 corresponden con la edad mínima y máxima, y <code>pL</code> y
 <code>pU</code> definen la los límites suaves a ambos lados de la
 distribución. El prior de calibración sería en este caso:
-<code>B(0.56,0.6,0.025)</code> o <code>B(0.56,0.72)</code>.</p>
+<code>B(0.56,0.72,0.025)</code> o <code>B(0.56,0.72)</code>.</p>
 </div>
 <div id="calibración-de-nodo-usando-un-intervalo-95-hpd-proveniente-de-un-análisis-previo-calibración-secundaria" class="section level3">
 <h3>Calibración de nodo usando un intervalo 95% HPD proveniente de un
@@ -817,6 +819,13 @@ write.tree(phy = calibrated, file = "startingTree.newick")
 ```
 -->
 </div>
+<div id="definir-el-constrain-de-la-raíz" class="section level3">
+<h3>Definir el <em>constrain</em> de la raíz</h3>
+<p>Para definir el prior de la raíz, vamos a usar una distribución
+<code>B</code> con <em>soft bounds</em>: <code>B(0.95,1.2)</code>, con
+base en información externa proveniente del análisis de <a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>.</p>
+<pre class="r klippy"><code>calib$calibstring[which(calib$id == &quot;n54&quot;)] &lt;- &quot;&#39;B[0.95@1.2]&#39;&quot;</code></pre>
+</div>
 <div id="escribir-el-árbol-de-inicio-con-toda-la-información-necesaria" class="section level3">
 <h3>Escribir el árbol de inicio con toda la información necesaria</h3>
 <p>Para usar nuestro árbol como input de <code>MCMCtree</code>
@@ -832,7 +841,8 @@ print(calib)</code></pre>
 <pre><code>##    id                       calibstring
 ## 1 n76  &#39;L[0.72@0.001@0.01157324@0.025]&#39;
 ## 2 n62    &#39;SN[0.4502984@0.05403769@0.0]&#39;
-## 3 n56 &#39;L[0.57600@0.1@0.03609402@0.025]&#39;</code></pre>
+## 3 n56 &#39;L[0.57600@0.1@0.03609402@0.025]&#39;
+## 4 n54                     &#39;B[0.95@1.2]&#39;</code></pre>
 <pre class="r klippy"><code>## Reemplazar los IDs de los nodos a calibrar por sus respectivos priors de calibracion
 for(i in calib$id){
   tree$node.label[which(tree$node.label == i)] &lt;- calib$calibstring[which(calib$id == i)]
@@ -884,6 +894,9 @@ Paleontological Society Papers, 16:291–316.<a href="#fnref6" class="footnote-b
 <li id="fn7"><p>Ballen, G.A., 2025. A flexible Bayesian method for
 estimating stratigraphic intervals and their co-occurrence in time.
 bioRxiv, pp.2025-02.<a href="#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>Betancur-R, R., Wiley, E.O., Arratia, G., Acero, A.,
+Bailly, N., Miya, M., Lecointre, G. and Ortí, G., 2017. Phylogenetic
+classification of bony fishes. BMC evolutionary biology, 17(1), p.162.<a href="#fnref8" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

@@ -562,7 +562,8 @@ for(i in alignms){
 <pre class="bash klippy_bash"><code>cd data/alignments
 
 ## En Bash tambien podemos iterar los alineamientos
-for i in `ls *.phylip`; do cat $i &gt;&gt; concatenated.phylip; echo &quot;&quot; &gt;&gt; concatenated.phylip; done</code></pre>
+for i in `ls *.phylip`; do cat $i &gt;&gt; concatenated.phylip; echo &quot;&quot; &gt;&gt; concatenated.phylip; done
+mv concatenated.phylip ../ # mover el archivo una carpeta atrás</code></pre>
 </div>
 
 
