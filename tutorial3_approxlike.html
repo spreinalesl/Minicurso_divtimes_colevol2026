@@ -544,10 +544,24 @@ debemos usar <code>USEDATA=3</code> en el archivo
 siguiente línea.</p>
 <pre class="bash klippy_bash"><code>cd approximate
 sed -r -i &#39;s/usedata = 0/usedata = 3/g&#39; mcmctree.ctl</code></pre>
-<p>Ahora podemos simplemente ejecutar <code>MCMCtree</code> en el
-directorio ‘approximate’:</p>
-<pre class="bash klippy_bash"><code>cd approximate
-mcmctree</code></pre>
+<p>Ahora podemos ejecutar <code>MCMCtree</code> en el directorio
+‘approximate’. Como resultado de este proceso que toma más o menos 6 min
+(en mi computador personal), las estimaciones de máxima verosimilitud
+(MLE) de las longitudes de rama, así como el gradiente y la matriz
+hessiana serán guardados en un archivo <code>out.BV</code>.</p>
+<pre class="bash klippy_bash"><code>mcmctree</code></pre>
+<p>Para usar la información contenida en el archivo <code>out.BV</code>
+en la estimación de tiempos de divergencia, debemos renombrarlo a
+<code>in.BV</code> para que <code>MCMCtree</code> lo reconozca como
+entrada.</p>
+<pre class="bash"><code>cp out.BV in.BV</code></pre>
+<p>Ahora debemos cambiar la opción usedata a 2 en lugar de la 3
+original. Luego, simplemente ejecutamos mcmctree en el directorio
+nuevamente:</p>
+<pre class="bash"><code>mcmctree</code></pre>
+<p>¡Listo! Tardó apenas unos segundos y ahora podemos examinar el
+archivo de traza ‘mcmc.txt’ en tracer y el árbol posterior resumido
+‘FigTree.tre’ en figtree.</p>
 </div>
 <div id="referencias" class="section level3">
 <h3>Referencias</h3>
