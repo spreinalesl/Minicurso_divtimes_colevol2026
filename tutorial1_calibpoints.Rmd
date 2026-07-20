@@ -259,10 +259,21 @@ Quantiles
 
 ```
 
-El prior de calibración usando este método fue definido de la siguiente forma: `L(0.57600,0.1,0.03609402,0.025)`
+Viendo el gráfico de densidad del tiempo de originación, la moda de la curva está casi en 58.0. Usamos entonces tL siendo el cuantil 2.5%, p = moda - cuantil\_2.5% = 0.4 Ma, es decir 0.004 en unidades de 100Ma, los cuantiles 2.5% y 97.5% de la función describe arriba, y la función c_truncauchy para encontrar c:
 
 ```{r, class.source='klippy'}
-calib$calibstring[which(calib$id == "n56")] <- "'L[0.57600@0.1@0.03609402@0.025]'"
+## Vamos a estimar el parametro c de la distribucion L
+cistio <- c_truncauchy(tl=0.5765, tr=0.611,
+                       p=0.0035, pr=0.975, al=0.025)
+
+print(cistio)
+[1] 0.003424076
+```
+
+El prior de calibración usando este método fue definido de la siguiente forma: `L(0.5765,0.0035,0.00342,0.025)`
+
+```{r, class.source='klippy'}
+calib$calibstring[which(calib$id == "n56")] <- "'L[0.5765@0.0035@0.00342@0.025]'"
 ```
 
 <!--
