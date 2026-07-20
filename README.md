@@ -39,7 +39,7 @@ conda activate divtimes
 
 - Necesitamos una filogenia previamente estimada, de hecho, solo la topología (i.e. las relaciones filogenéticas entre los taxones) puesto que vamos a estimar las longitudes de rama en tiempo absoluto a lo largo del análisis. Esa filogenia debe ser **enraizada** y totalmente resuelta, es decir, sin politomias (**binary tree**), y debe estar en formato Newick **sin longitudes de rama**. Detallaremos el formato del árbol más adelante.
 
-- Alineamientos de AND, aminoácidos o morfología para informar las tasas de substitución. Generalmente se usan los mismos alineamientos que fueron usados para inferir la filogenia o un subconjunto de los mismos. En el segundo caso, es fundamental asegurarse de que todos los taxones incluidos en la filogenia estén también en el subconjunto de los alineamientos.
+- Alineamientos de ADN, aminoácidos o morfología para informar las tasas de substitución. Generalmente se usan los mismos alineamientos que fueron usados para inferir la filogenia o un subconjunto de los mismos. En el segundo caso, es fundamental asegurarse de que todos los taxones incluidos en la filogenia estén también en el subconjunto de los alineamientos.
 
 - Información de tiempo independiente para definir *constrains* temporales en algunos nodos de la filogenia (**calibration priors**). Esa información de tiempo será incluida directamente en el archivo del árbol como veremos más adelante.
 
@@ -59,6 +59,6 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Seleccionar el modelo de reloj que mejor se ajusta a mis datos [Tutorial3]().
 
-- Correr las cadenas de ```MCMC``` para estimar los tiempos de divergencia [Tutorial4]().
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia [Tutorial4]().
 
 - Revisar los resultados del análisis [Tutorial5]().
