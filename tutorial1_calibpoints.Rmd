@@ -196,6 +196,23 @@ Los **intervalos estratigráficos** son modelos que permiten estimar el tiempo d
 
 En este ejemplo usamos intervalos estratigráficos implementado en el paquete de `Julia` [StratIntervals](https://github.com/gaballench/StratIntervals.jl) para estimar la edad de origen de la familia Istiophoridae y usarlo para definir el prior de calibración del nodo 56 en nuestra filogenia. Para más detalles sobre cómo funciona el método, los invitamos a visitar el repositorio de `GitHub` y este prepint ^[Ballen, G.A., 2025. A flexible Bayesian method for estimating stratigraphic intervals and their co-occurrence in time. bioRxiv, pp.2025-02.].
 
+Para poder usar este paquete debemos instalar Julia, un lenguaje de programación moderno enfocado en eficiencia [https://julialang.org/downloads/](https://julialang.org/downloads/). Una vez instalado y abierto, podemos instalar el paquete así:
+
+```{julia, class.source='klippy'}
+## Leer los datos
+] # el corchete cuadrado cerrando abre el ambiente de instalación de paquetes
+# ahora solo es necesario usar el comando add con el nombre del paquete
+add StratIntervals
+```
+
+Alternativamente, podemos usar la forma funcional de esos comandos:
+
+```{julia, class.source='klippy'}
+## Leer los datos
+using Pkg
+Pkg.add("StratIntervals")
+```
+
 Istiophoridae tiene $52$ ocurrencias fósiles curadas disponibles en el [Paleo Biology Data Base](https://paleobiodb.org/).
 
 ```{r, class.source='klippy'}
