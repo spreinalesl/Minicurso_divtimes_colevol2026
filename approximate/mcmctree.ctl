@@ -6,7 +6,7 @@
 
          ndata = 5				* Number of partitions
        seqtype = 0				* 0: nucleotides; 1:codons; 2:AAs
-       usedata = 0				* 0: no data (samp from prior); 1:seq likelihood; 2:approx likelihood (use in.BV); 3:out.BV
+       usedata = 3				* 0: no data (samp from prior); 1:seq likelihood; 2:approx likelihood (use in.BV); 3:out.BV
        clock = 1				* 1: global clock; 2: independent rates; 3: correlated rates
 
          model = 4				* 0:JC69, 1:K80, 2:F81, 3:F84, 4:HKY85. Pick 4 for nt, and 2 for aa 
