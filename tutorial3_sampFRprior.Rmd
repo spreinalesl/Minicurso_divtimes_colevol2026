@@ -4,15 +4,8 @@ author: "Sandra Reinales & Gustavo Ballen"
 output: html_document
 ---
 
-```{r klippy_bash, echo=FALSE, include=TRUE}
-klippy::klippy('bash',
-               position = c('top', 'right'),
-               color = 'gray', 
-               tooltip_message = 'Click to copy', tooltip_success = 'Done')
-```
-
 ```{r klippy, echo=FALSE, include=TRUE}
-klippy::klippy('r',
+klippy::klippy(c('r', 'bash'),
                position = c('top', 'right'),
                color = 'gray', 
                tooltip_message = 'Click to copy', tooltip_success = 'Done')
@@ -22,7 +15,7 @@ Muestrear del *prior* (*sample from prior*), es decir, correr un análisis de `M
 
 Vamos a crear un directorio para el análisis, y a copiar el *control file*:
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 ## Asumiendo que estamos en el directorio princial del repositorio
 mkdir -p sFRp
 cp data/mcmctree.ctl sFRp/
@@ -30,12 +23,48 @@ cp data/mcmctree.ctl sFRp/
 
 No necesitamos editar el *control file* porque nuestro template ya está configurado en `usedata=0`. Sólo vamos al directorio y corremos `MCMCtree`
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 cd sFRp
 mcmctree
 ```
 
-Después podemos comparar la distribución *prior* y la posterior para detentar interdependencia, o algún sesgo específico.
+Ahora vamos a comparar la distribución *prior* designada por nosotros con la densidad de calibración que va a ser usada por el programa (i.e. *prior* efectivo). Más adelante podrémos comparar también esas densidades *prior* con la posterior para detentar interdependencia, o algún sesgo específico.
 
+Primero vamos a leer el archivo de salida de `mcmctree` en `R`:
 
+```{r, class.source='klippy'}
+## Cargar los paquetes
+library(ape)
+library(tbea)
+library(mcmc3r)
+```
 
+Grafiquemos de nuevo el prior de calibración que definimos para este nodo en el tutorial1
+
+```{r, class.source='klippy'}
+# Recordemos que el valor del parametro c de la distribucion L fue:
+cparam <- 0.01157324
+
+## Usar la funcion dL
+curve(dL(x, tL=0.56, p=0.0001, c=cparam),
+      from=0.55, to=0.72, n=100,
+      ylab="Density")
+```
+
+Ahora usemos la muestra posterior del análisis sample from prior para ese nodo
+
+```{r, class.source='klippy'}
+## Leer el archivo
+prior <- read.delim("sFRp/mcmc.txt")
+head(prior)
+
+## Vamos a construir una densidad con los valores de distribucion posterior
+effPriorSphyren <- density(prior$t_n76)
+print(effPriorSphyren)
+
+## Ahora dibujemos el prior efectivo sobre el prior del usuario
+lines(x=effPriorSphyren$x, y=effPriorSphyren$y, lwd=2, col="blue2")
+
+polygon(x=effPriorSphyren$x, y=effPriorSphyren$y,
+        col=rgb(red=0, blue=1, green=0, alpha=0.3))
+```
