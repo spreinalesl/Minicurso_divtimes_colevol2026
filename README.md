@@ -54,12 +54,10 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Preparar el archivo que contiene los alineamientos [Tutorial2](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial2_prep_alim.html).
 
-- Configurar el **control file** de MCMCtree [Tutorial3]().
+- Seleccionar el modelo de reloj que mejor se ajusta a mis datos [Tutorial3]().
 
-- Estimar el gradiente y la matriz Hesiana [Tutorial4]().
+- Estimar el gradiente y la matriz Hesiana [Tutorial4]()
 
-- Seleccionar el modelo de reloj que mejor se ajusta a mis datos [Tutorial5]().
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia [Tutorial5]().
 
-- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia [Tutorial6]().
-
-- Revisar los resultados del análisis [Tutorial7]().
+- Revisar los resultados del análisis [Tutorial6]().
