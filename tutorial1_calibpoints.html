@@ -544,8 +544,8 @@ setwd(&quot;/mnt/c/Users/UserName/Minicurso_divtimes_colevol2026&quot;)</code></
 library(tbea)
 library(mcmc3r)</code></pre>
 </div>
-<div id="inspeccionar-la-filogenia-y-a-numerar-los-nodos" class="section level3">
-<h3>Inspeccionar la filogenia y a numerar los nodos</h3>
+<div id="examinar-la-filogenia-y-a-numerar-los-nodos" class="section level3">
+<h3>Examinar la filogenia y a numerar los nodos</h3>
 <pre class="r klippy"><code>## Leer el arbol inicial
 tree &lt;- read.nexus(&quot;data/posterior_maxcred.tre&quot;)
 
@@ -851,6 +851,12 @@ sed -i &#39;s/@/,/g&#39; startingTree.phy
 
 ## Finalmente vamos a agregar el numero de tips en la primera linea del archivo de arbol 
 sed -i &#39;1s/^/  53  1\n/&#39; startingTree.phy</code></pre>
+<p>Podemos usar <code>Figtree</code> para revisar que el árbol esté
+correctamente anotado.</p>
+<pre class="bash klippy_bash"><code>figtree startingTree.phy</code></pre>
+</div>
+<div id="referencias" class="section level3">
+<h3>Referencias</h3>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />
