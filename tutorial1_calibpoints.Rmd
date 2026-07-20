@@ -198,19 +198,47 @@ En este ejemplo usamos intervalos estratigráficos implementado en el paquete de
 
 Para poder usar este paquete debemos instalar Julia, un lenguaje de programación moderno enfocado en eficiencia [https://julialang.org/downloads/](https://julialang.org/downloads/). Una vez instalado y abierto, podemos instalar el paquete así:
 
-```{julia, class.source='klippy'}
+```{julia, class.source='klippy', eval=FALSE}
 ## Leer los datos
 ] # el corchete cuadrado cerrando abre el ambiente de instalación de paquetes
 # ahora solo es necesario usar el comando add con el nombre del paquete
-add StratIntervals
+add StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames
 ```
 
 Alternativamente, podemos usar la forma funcional de esos comandos:
 
-```{julia, class.source='klippy'}
+```{julia, class.source='klippy', eval=FALSE}
 ## Leer los datos
 using Pkg
-Pkg.add("StratIntervals")
+Pkg.add(["StratIntervals", "Turing", "Distributions", "StatsPlots", "Random", "CSV", "DataFrames"])
+```
+
+Más detalles sobre el paquete y sus funciones puede encontrarse en el sitio web [https://gaballench.github.io/StratIntervals.jl/stable/](https://gaballench.github.io/StratIntervals.jl/stable/).
+
+Cargamos los paquetes y los datos:
+
+```{julia, class.source='klippy', eval=FALSE}
+using StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames
+```
+
+```{julia, class.source='klippy', eval=FALSE}
+# leer los datos
+dataset = CSV.read("Sphyraenidae.csv", DataFrame)
+# especificar el objeto stratinterval
+barracuda_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
+# amostrar por MCMC
+post_sample = sample_stratinterval(barracuda_interval, 10000, NUTS(), false, false)
+# graficar las cadenas de Markov
+plot(post_sample, plot_title=main_title)
+
+# graficar todo: datos, priors, posteriores
+histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, plot_title=main_title, xlim=xlim_interval, ylim=ylim_interval, label="Data")
+plot!(theta1_prior, plot_title=main_title, label="Prior", linewidth=3)
+density!(post_sample[:,"θ1",:], label="Posterior", linewidth=3)
+
+# examinar las estadísticas sumario de las distribuciones posteriores
+DataFrame(describe(post_sample)[1]
+DataFrame(describe(post_sample)[2]
 ```
 
 Istiophoridae tiene $52$ ocurrencias fósiles curadas disponibles en el [Paleo Biology Data Base](https://paleobiodb.org/).
