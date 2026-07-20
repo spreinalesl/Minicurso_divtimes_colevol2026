@@ -1,0 +1,151 @@
+---
+title: "Tutorial2: Selección de modelo de reloj"
+author: "Sandra Reinales & Gustavo Ballen"
+output: html_document
+---
+
+```{r klippy_bash, echo=FALSE, include=TRUE}
+klippy::klippy('bash',
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('r',
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+En `MCMCTree` la selección del modelo de reloj molecular usado para inferencia de tiempos de divergencia de un linaje se lleva a cabo mediante la estimación de la **probabilidad marginal de cada modelo**, y luego, calculando el factor de Bayes o probabilidad posterior del mismo (i.e. selección bayesiana del modelo de reloj).
+
+`MCMCTree` implementa tres modelos de reloj: el modelo de movimiento browniano geométrico ('GBM`), el modelo log-normal independiente (`ILN`) y el modelo de reloj estricto (`CLK`) ^[Rannala, B. and Yang, Z., 2007. Inferring speciation times under an episodic molecular clock. Systematic biology, 56(3), pp.453-466.].
+
+Este tutorial está basado en el tutorial de Mario dos Reis, disponible en [](https://dosreislab.github.io/2017/10/24/marginal-likelihood-mcmc3r.html).
+
+### Preparar el directorio para el análisis de reloj estricto
+
+Vamos a crear un directorio nuevo y allí vamos a copiar el *control file* y el archivo `in.BV` que acabamos de obtener producto del análisis de verosimilitud aproximada.
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+mkdir -p clk
+cp data/mcmctree.ctl clk/
+cp approximate/in.BV clk/
+```
+
+Ahora tenemos que editar el *control file* para usar `usedata=1` y `clock=1` que significa reloj estricto (*strict clock* - CLK).
+
+Un paso más adelante el paquete `mcmc3` va a crear un sistema de directorios y va a copiar el *control file* entonces tenemos que ajustar la ruta a los archivos de entrada (i.e. árbol inicial y la matrix con los alineamientos) para que `mcmctree` los pueda encontrar.
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+cd clk
+
+sed -r -i 's/usedata = 0/usedata = 1/g' mcmctree.ctl
+
+sed -r -i 's/seqfile = ..\/data\/concatenated.phylip/seqfile = ..\/..\/data\/concatenated.phylip/g' mcmctree.ctl
+
+sed -r -i 's/treefile = ..\/data\/startingTree.phy/treefile = ..\/..\/data\/startingTree.phy/g' mcmctree.ctl
+```
+
+Usando el paquete de R `mcmc3` seleccionaremos 4 puntos `b` para estimar la probabilidad marginal del reloj estricto utilizando el método de pasos (*stepping stones*). En `R` vamos a correr lo siguiente:
+
+```{r, class.source='klippy', eval=FALSE}
+library(mcmc3r)
+
+## Revisar el directorio de trabajo
+getwd()
+
+## En caso de que no sea clk, vamos a definirlo
+setwd("clk")
+
+## Definir los valores de los pasos
+b <- mcmc3r::make.beta(n=4, a=5, method="step-stones")
+
+## Crear los directorios utilizando el archivo de control mcmctree.ctl
+mcmc3r::make.bfctlf(b, ctlf="mcmctree.ctl", betaf="beta.txt")
+```
+
+Copiemos el archivo `in.BV` en cada directorio:
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+for d in `seq 1 1 4`; do cp in.BV $d; done
+```
+
+Ahora vamos a correr el análisis en cada una de los directorios que acabamos de crear. Podemos usar un *loop* de `Bash`, o visitar cada directorio y ejecutar `mcmctree` uno por uno.
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+for d in `seq 1 1 4`; do cd $d; mcmctree >/dev/null & cd ..; done
+```
+
+Volvamos a `R` para analiza la salida de `MCMCtree` con `mcmc3r`:
+
+```{r, class.source='klippy', eval=FALSE}
+clk <- mcmc3r::stepping.stones()
+clk$logml; clk$se
+```
+
+### Preparar los directorios para el análisis del modelo independiente y el modelo autocorrelacionado 
+
+Vamos de nuevo a `Bash` para crear dos directorios adicionales, uno para el modelo independiente (ILN) y otro para el modelo autocorrelacionado (GBM).
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+cd ..
+mkdir -p iln gbm
+
+## Copiemos el control file
+cp mcmctree.ctl iln/
+cp mcmctree.ctl gbm/
+```
+
+Necesitamos modificar el modelo de reloj en el *control file* para cada directorio, cambiando `clock=2` para `ILN` y `clock=3` para `GBM`.
+
+Ahora volvamos a R para que podamos preparar las *stones* y los directorios para cada uno de los modelos adicionales.
+
+```{r, class.source='klippy', eval=FALSE}
+## b ya fue calculado y esta en clk
+## asumiendo que estamos en clk
+## Preparar template para ILN:
+setwd("../iln")  
+mcmc3r::make.bfctlf(b, ctlf="mcmctree.ctl", betaf="beta.txt")
+
+# prepare templates for GBM:
+setwd("../gbm")  
+mcmc3r::make.bfctlf(b, ctlf="mcmctree.ctl", betaf="beta.txt")
+```
+
+Ahora ejecutemos el análisis, ya sea con el `loop` o manualmente:
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+## Asumiendo que estamos en el directorio principal del repositorio
+cd iln; for d in `seq 1 1 4`; do cd $d; mcmctree >/dev/null & cd ..; done
+cd ..
+
+cd gbm; for d in `seq 1 1 4`; do cd $d; mcmctree >/dev/null & cd ..; done
+cd ..
+```
+
+Por último volvamos a R para leer los resultados de cada uno de los modelos de reloj adicionales.
+
+```{r, class.source='klippy', eval=FALSE}
+## si estamos en gbm/
+setwd("../iln")
+iln <- mcmc3r::stepping.stones()
+setwd("../gbm")
+gbm <- mcmc3r::stepping.stones()
+```
+
+### Usar Bayes Factors para seleccionar el modelo
+
+```{r, class.source='klippy', eval=FALSE}
+## Ahora vamos a calcular el Bayes Factor para seleccionar el modelo
+results <-  mcmc3r::bayes.factors(clk, iln, gbm)
+
+## Explorar el output
+print(results)
+
+## Graficar la probabilidad posterior de cada modelo
+barplot(results$pr, names.arg=c("Strict", "Independent", "Autocorrelated"))
+```
+
+### Referencias

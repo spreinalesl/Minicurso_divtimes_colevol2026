@@ -5,4 +5,4 @@
 *.tmp
 
 # Ignore source files
-*.Rmd
+#*.Rmd

@@ -1,0 +1,53 @@
+---
+title: "Tutorial3: Cálculo de la verosimilitud aproximada"
+author: "Sandra Reinales & Gustavo Ballen"
+output: html_document
+---
+
+```{r klippy_bash, echo=FALSE, include=TRUE}
+klippy::klippy('bash',
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('r',
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+La verosimilitud aproximada se calcula obteniendo la distribución normal multivariada de los estimadores de máxima verosimilitud (EMV) de las longitudes de rama, y calculando su matriz de varianza-covarianza, es decir, la matriz de segundas derivadas del logaritmo de la verosimilitud con respecto a las longitudes de rama. La matriz resultante es llamada matriz hessiana ^[Thorne, J.L., Kishino, H. and Painter, I.S., 1998. Estimating the rate of evolution of the rate of molecular evolution. Molecular biology and evolution, 15(12), pp.1647-1657.].
+
+### Preparar el directorio para el análisis
+
+Vamos a la terminal y creamos un directorio para el análisis. Allí podemos copiar el *control file*
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+mkdir -p approximate
+cp data/mcmctree.ctl approximate/
+```
+
+Luego, vamos al directorio `approximate` y cambiamos `USEDATA` por el valor correcto. Dado que primero `MCMCtree` va a aproximar el espacio de verosimilitud, debemos usar `USEDATA=3` en el archivo `mcmcmtree.ctl`. Puede hacerlo manualmente o usando la siguiente línea.
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+cd approximate
+sed -r -i 's/usedata = 0/usedata = 3/g' mcmctree.ctl
+```
+
+Ahora podemos ejecutar `MCMCtree` en el directorio 'approximate'. Como resultado de este proceso que toma más o menos 6 min (en mi computador personal), las estimaciones de máxima verosimilitud (MLE) de las longitudes de rama, así como el gradiente y la matriz hessiana serán guardados en un archivo `out.BV`.
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+mcmctree
+```
+
+Para usar la información contenida en el archivo `out.BV` en la estimación de tiempos de divergencia, debemos renombrarlo a `in.BV` para que `MCMCtree` lo reconozca como entrada.
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+cp out.BV in.BV
+```
+
+Una vez estimados el gradiente y la matriz hessiana, los análisis tanto de selección de modelo de reloj como la estimación de los tiempos de divergencia, serán mucho más rápidos. Sólo necesitamos usar el archivo `in.BV` y cambiar el valor del argumento `usedata` de acuerdo al análisis que se va a correr.
+
+### Referencias
