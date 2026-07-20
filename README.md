@@ -32,8 +32,11 @@ mkdir ~/.conda/envs/divtimes
 tar -xzvf divtimes.tar.gz -C ~/.conda/envs/divtimes/
 ```
 
+Ahora solo necesitamos activar el ambiente de conda y correr el comando `conda-unpack` que terminal de configurar las rutas. Importante, sin este paso, algunos programas pueden no funcionar.
+
 ```{bash, class.source='klippy_bash', eval=FALSE}
 conda activate divtimes
+conda-unpack
 ```
 ### Datos:
 
