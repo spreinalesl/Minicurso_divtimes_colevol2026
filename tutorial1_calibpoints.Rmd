@@ -232,7 +232,7 @@ istio_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
 # muestrear por MCMC
 post_sample = sample_stratinterval(istio_interval, 10000, NUTS(), false, false)
 # graficar las cadenas de Markov
-plot(post_sample, plot_title=main_title)
+plot(post_sample)
 
 # graficar todo: datos, priors, posteriores
 histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, label="Data")
