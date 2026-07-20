@@ -28,6 +28,8 @@ getwd() # Muestra el directorio en el que estamos
 ```{r, class.source='klippy', results='hide', eval=FALSE}
 # En caso de no estar en el directorio del repositorio del curso
 setwd("/mnt/c/Users/UserName/Minicurso_divtimes_colevol2026")
+# es posible que la carpeta esté en esta localización también:
+setwd("/home/UserName/Minicurso_divtimes_colevol2026")
 ```
 
 ### Cargar los paquetes
