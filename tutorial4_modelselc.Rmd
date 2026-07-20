@@ -31,7 +31,7 @@ Vamos a crear un directorio nuevo y allí vamos a copiar el *control file* y el 
 ```{bash, class.source='klippy_bash', eval=FALSE}
 mkdir -p clk
 cp data/mcmctree.ctl clk/
-cp approximate/in.BV clk/
+#cp approximate/in.BV clk/
 ```
 
 Ahora tenemos que editar el *control file* para usar `usedata=1` y `clock=1` que significa reloj estricto (*strict clock* - CLK).
@@ -41,7 +41,7 @@ Un paso más adelante el paquete `mcmc3` va a crear un sistema de directorios y 
 ```{bash, class.source='klippy_bash', eval=FALSE}
 cd clk
 
-sed -r -i 's/usedata = 0/usedata = 1/g' mcmctree.ctl
+sed -r -i 's/usedata = 0/usedata = 2/g' mcmctree.ctl
 
 sed -r -i 's/seqfile = ..\/data\/concatenated.phylip/seqfile = ..\/..\/data\/concatenated.phylip/g' mcmctree.ctl
 
@@ -69,13 +69,13 @@ mcmc3r::make.bfctlf(b, ctlf="mcmctree.ctl", betaf="beta.txt")
 Copiemos el archivo `in.BV` en cada directorio:
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
-for d in `seq 1 1 4`; do cp in.BV $d; done
+for d in `seq 1 1 4`; do ln -s ../../approximate/in.BV in.BV $d; done
 ```
 
 Ahora vamos a correr el análisis en cada una de los directorios que acabamos de crear. Podemos usar un *loop* de `Bash`, o visitar cada directorio y ejecutar `mcmctree` uno por uno.
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
-for d in `seq 1 1 4`; do cd $d; mcmctree >/dev/null & cd ..; done
+for d in `seq 1 1 4`; do cd $d; mcmctree; cd ..; done
 ```
 
 Volvamos a `R` para analiza la salida de `MCMCtree` con `mcmc3r`:
