@@ -52,14 +52,14 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Establecer los *priors* de calibración [Tutorial1](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial1_calibpoints.html). Para esto necesitamos definir cuáles nodos van a ser calibrados, escoger la distribución estadística (y su respectivo conjunto de parámetros) que vamos a usar para informar el tiempo en cada uno de los nodos, y finalmente incluir esa información en el archivo del árbol.   
 
-- Preparar el archivo que contiene los alineamientos.
+- Preparar el archivo que contiene los alineamientos [Tutorial2](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial2_prep_alim.Rmd).
 
-- Configurar el **control file** de MCMCtree.
+- Configurar el **control file** de MCMCtree [Tutorial3]().
 
-- Estimar el gradiente y la matriz Hesiana [Tutorial2]().
+- Estimar el gradiente y la matriz Hesiana [Tutorial4]().
 
-- Seleccionar el modelo de reloj que mejor se ajusta a mis datos [Tutorial3]().
+- Seleccionar el modelo de reloj que mejor se ajusta a mis datos [Tutorial5]().
 
-- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia [Tutorial4]().
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia [Tutorial6]().
 
-- Revisar los resultados del análisis [Tutorial5]().
+- Revisar los resultados del análisis [Tutorial7]().
