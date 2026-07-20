@@ -25,9 +25,7 @@ Estos programas fueron instalados previamente en un ambiente de `conda`. Para de
 cd Minicurso_divtimes_colevol2026
 ```
 
-```{bash, class.source='klippy_bash', eval=FALSE}
-wget https://www.dropbox.com/scl/fi/bm1wfgt51ws97nalpplpc/divtimes.tar.gz?rlkey=3k075kob8jkuq8bu418p8j6x6&st=hv0w7snc&dl=0
-```
+[Bajar este archivo de Dropbox](https://www.dropbox.com/scl/fi/pbbz8baq9rimcal19v0t7/divtimes.tar.gz?rlkey=emxt6cvu4lkpx2v54xcguqtsw&st=kyt20zid&dl=0)
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
 tar -xzvf divtimes.tar.gz
@@ -54,7 +52,7 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Preparar el archivo que contiene los alineamientos [Tutorial2](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial2_prep_alim.html).
 
-- Estimar el gradiente y la matriz Hesiana [Tutorial3]().
+- Estimar el gradiente y la matriz Hesiana (verosimilitud aproximada) [Tutorial3]().
 
 - Seleccionar el modelo de reloj [Tutorial4]().
 
