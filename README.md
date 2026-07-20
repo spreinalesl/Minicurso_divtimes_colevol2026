@@ -28,6 +28,7 @@ cd Minicurso_divtimes_colevol2026
 [Bajar este archivo de Dropbox](https://www.dropbox.com/scl/fi/pbbz8baq9rimcal19v0t7/divtimes.tar.gz?rlkey=emxt6cvu4lkpx2v54xcguqtsw&st=kyt20zid&dl=0)
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
+mkdir ~/.conda/envs/divtimes
 tar -xzvf divtimes.tar.gz -C ~/.conda/envs/divtimes/
 ```
 
