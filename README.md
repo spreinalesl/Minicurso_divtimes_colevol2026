@@ -59,7 +59,7 @@ Al ejecutar, debe aceptar los términos (yes/si), posteriormente dar enter en la
 
 Ya que tenemos conda en Linux, podemos instalar muy fácilmente todos los programas necesarios para el curso, como se describe a continuación.
 
-## Introducción
+## Introducción al tutorial
 
 La mayoría, si no todos, los métodos usados recientemente en biología evolutiva requieren filogenias en tiempo explícito/absoluto como *input* debido a que están basados en modelos markovianos de tiempo continuo. Sin embargo, en los árboles resultantes de la inferencia filogenética, las longitudes de rama representan una **combinación del número esperado de cambios por sitio y el tiempo** necesario para que dichos cambios se acumulen a lo largo de las ramas. Por esa razón, usar métodos que estimen esas longitudes de rama en unidades de tiempo absoluto resulta fundamental para análisis comparativos como evolución morfológica, biogeografía o estimacion de dinámicas macroevolutivas.
 
@@ -104,7 +104,7 @@ conda-unpack
 
 Estos archivos están disponibles en el repositorio en la carpeta [data](https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/tree/main/data). Para garantizar la estabilidad de los scripts incluidos en este tutorial, recomendamos fuertemente que la **estructura de carpetas y los nombres** tanto de las carpetas como de los archivos **no sean alterados**.
 
-Para acceder a los datos, clone este repositorio:
+Para acceder a los datos clone este repositorio:
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
 git clone https://github.com/spreinalesl/Minicurso_divtimes_colevol2026.git
