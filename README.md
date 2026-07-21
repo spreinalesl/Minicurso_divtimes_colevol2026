@@ -46,7 +46,7 @@ La distribución más liviana y simple de instalar es miniconda (ver detalles en
 Primero, abra Ubuntu como se indicó anteriormente. Después, baje el instalador con este comando en la línea de comandos de Ubuntu (bash):
 
 ```
-curl -0 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
 Ahora, ejecute el instalador con este comando:
