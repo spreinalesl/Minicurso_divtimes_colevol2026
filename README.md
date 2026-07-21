@@ -41,18 +41,18 @@ Esto debería finalizar la instalación de Ubuntu. Para iniciar Linux, busque la
 
 # Instalación de conda
 
-La distribución más liviana y simple de instalar es miniconda (ver detalles en https://www.anaconda.com/docs/getting-started/miniconda/install/). Con los siguientes comandos puede bajar el instalador e instalar conda en el sistema.
+La distribución más liviana y simple de instalar es miniconda (ver detalles en https://repo.anaconda.com/miniconda/ Con los siguientes comandos puede bajar el instalador e instalar conda en el sistema.
 
 Primero, abra Ubuntu como se indicó anteriormente. Después, baje el instalador con este comando en la línea de comandos de Ubuntu (bash):
 
 ```
-curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+curl -0 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
 Ahora, ejecute el instalador con este comando:
 
 ```
-bash ./Miniconda3-latest-MacOSX-arm64.sh
+bash ./Miniconda3-latest-Linux-x86_64.sh
 ```
 
 Al ejecutar, debe aceptar los términos (yes/si), posteriormente dar enter en la ubicación default de instalación, y cuando el instalador pregunte si autocargar, decir que sí (yes/si). Esto último permitirá que cada vez que se abra Ubuntu, conda esté activado automáticamente.
