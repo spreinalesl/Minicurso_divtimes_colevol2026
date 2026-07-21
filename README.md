@@ -62,4 +62,4 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Seleccionar el modelo de reloj [Tutorial5](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial5_modelselc.html).
 
-- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6]().
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial6_divtimest.html).
