@@ -517,11 +517,7 @@ alineamientos</h1>
 
 
 <script>
-  addClassKlippyTo("pre.bash");
-  addKlippy('right', 'top', '#BEBEBE', '1', 'Click to copy', 'Done');
-</script>
-<script>
-  addClassKlippyTo("pre.r");
+  addClassKlippyTo("pre.r, pre.bash");
   addKlippy('right', 'top', '#BEBEBE', '1', 'Click to copy', 'Done');
 </script>
 <p>En <code>MCMCtree</code> es posible analizar datos de ADN,
@@ -559,7 +555,7 @@ for(i in alignms){
 <p>En este caso ya tenemos los alineamientos en formato
 <code>phylip</code>, solo tenemos que concatenarlos, para eso usamos
 <code>Bash</code>:</p>
-<pre class="bash klippy_bash"><code>cd data/alignments
+<pre class="bash klippy"><code>cd data/alignments
 
 ## En Bash tambien podemos iterar los alineamientos
 for i in `ls *.phylip`; do cat $i &gt;&gt; concatenated.phylip; echo &quot;&quot; &gt;&gt; concatenated.phylip; done

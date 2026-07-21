@@ -517,11 +517,7 @@ aproximada</h1>
 
 
 <script>
-  addClassKlippyTo("pre.bash");
-  addKlippy('right', 'top', '#BEBEBE', '1', 'Click to copy', 'Done');
-</script>
-<script>
-  addClassKlippyTo("pre.r");
+  addClassKlippyTo("pre.r, pre.bash");
   addKlippy('right', 'top', '#BEBEBE', '1', 'Click to copy', 'Done');
 </script>
 <p>La verosimilitud aproximada se calcula obteniendo la distribución
@@ -534,7 +530,7 @@ resultante es llamada matriz hessiana <a href="#fn1" class="footnote-ref" id="fn
 <h3>Preparar el directorio para el análisis</h3>
 <p>Vamos a la terminal y creamos un directorio para el análisis. Allí
 podemos copiar el <em>control file</em></p>
-<pre class="bash klippy_bash"><code>mkdir -p approximate
+<pre class="bash klippy"><code>mkdir -p approximate
 cp data/mcmctree.ctl approximate/</code></pre>
 <p>Luego, vamos al directorio <code>approximate</code> y cambiamos
 <code>USEDATA</code> por el valor correcto. Dado que primero
@@ -542,26 +538,24 @@ cp data/mcmctree.ctl approximate/</code></pre>
 debemos usar <code>USEDATA=3</code> en el archivo
 <code>mcmcmtree.ctl</code>. Puede hacerlo manualmente o usando la
 siguiente línea.</p>
-<pre class="bash klippy_bash"><code>cd approximate
+<pre class="bash klippy"><code>cd approximate
 sed -r -i &#39;s/usedata = 0/usedata = 3/g&#39; mcmctree.ctl</code></pre>
 <p>Ahora podemos ejecutar <code>MCMCtree</code> en el directorio
 ‘approximate’. Como resultado de este proceso que toma más o menos 6 min
 (en mi computador personal), las estimaciones de máxima verosimilitud
 (MLE) de las longitudes de rama, así como el gradiente y la matriz
 hessiana serán guardados en un archivo <code>out.BV</code>.</p>
-<pre class="bash klippy_bash"><code>mcmctree</code></pre>
+<pre class="bash klippy"><code>mcmctree</code></pre>
 <p>Para usar la información contenida en el archivo <code>out.BV</code>
 en la estimación de tiempos de divergencia, debemos renombrarlo a
 <code>in.BV</code> para que <code>MCMCtree</code> lo reconozca como
 entrada.</p>
-<pre class="bash"><code>cp out.BV in.BV</code></pre>
-<p>Ahora debemos cambiar la opción usedata a 2 en lugar de la 3
-original. Luego, simplemente ejecutamos mcmctree en el directorio
-nuevamente:</p>
-<pre class="bash"><code>mcmctree</code></pre>
-<p>¡Listo! Tardó apenas unos segundos y ahora podemos examinar el
-archivo de traza ‘mcmc.txt’ en tracer y el árbol posterior resumido
-‘FigTree.tre’ en figtree.</p>
+<pre class="bash klippy"><code>cp out.BV in.BV</code></pre>
+<p>Una vez estimados el gradiente y la matriz hessiana, los análisis
+tanto de selección de modelo de reloj como la estimación de los tiempos
+de divergencia, serán mucho más rápidos. Sólo necesitamos usar el
+archivo <code>in.BV</code> y cambiar el valor del argumento
+<code>usedata</code> de acuerdo al análisis que se va a correr.</p>
 </div>
 <div id="referencias" class="section level3">
 <h3>Referencias</h3>

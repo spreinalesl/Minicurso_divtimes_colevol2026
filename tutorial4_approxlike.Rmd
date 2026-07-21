@@ -4,15 +4,8 @@ author: "Sandra Reinales & Gustavo Ballen"
 output: html_document
 ---
 
-```{r klippy_bash, echo=FALSE, include=TRUE}
-klippy::klippy('bash',
-               position = c('top', 'right'),
-               color = 'gray', 
-               tooltip_message = 'Click to copy', tooltip_success = 'Done')
-```
-
 ```{r klippy, echo=FALSE, include=TRUE}
-klippy::klippy('r',
+klippy::klippy(c('r', 'bash'),
                position = c('top', 'right'),
                color = 'gray', 
                tooltip_message = 'Click to copy', tooltip_success = 'Done')
@@ -24,27 +17,27 @@ La verosimilitud aproximada se calcula obteniendo la distribución normal multiv
 
 Vamos a la terminal y creamos un directorio para el análisis. Allí podemos copiar el *control file*
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 mkdir -p approximate
 cp data/mcmctree.ctl approximate/
 ```
 
 Luego, vamos al directorio `approximate` y cambiamos `USEDATA` por el valor correcto. Dado que primero `MCMCtree` va a aproximar el espacio de verosimilitud, debemos usar `USEDATA=3` en el archivo `mcmcmtree.ctl`. Puede hacerlo manualmente o usando la siguiente línea.
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 cd approximate
 sed -r -i 's/usedata = 0/usedata = 3/g' mcmctree.ctl
 ```
 
 Ahora podemos ejecutar `MCMCtree` en el directorio 'approximate'. Como resultado de este proceso que toma más o menos 6 min (en mi computador personal), las estimaciones de máxima verosimilitud (MLE) de las longitudes de rama, así como el gradiente y la matriz hessiana serán guardados en un archivo `out.BV`.
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 mcmctree
 ```
 
 Para usar la información contenida en el archivo `out.BV` en la estimación de tiempos de divergencia, debemos renombrarlo a `in.BV` para que `MCMCtree` lo reconozca como entrada.
 
-```{bash, class.source='klippy_bash', eval=FALSE}
+```{bash, class.source='klippy', eval=FALSE}
 cp out.BV in.BV
 ```
 

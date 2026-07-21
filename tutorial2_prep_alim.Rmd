@@ -4,15 +4,8 @@ author: "Sandra Reinales & Gustavo Ballen"
 output: html_document
 ---
 
-```{r klippy_bash, echo=FALSE, include=TRUE}
-klippy::klippy('bash',
-               position = c('top', 'right'),
-               color = 'gray', 
-               tooltip_message = 'Click to copy', tooltip_success = 'Done')
-```
-
 ```{r klippy, echo=FALSE, include=TRUE}
-klippy::klippy('r',
+klippy::klippy(c('r', 'bash'),
                position = c('top', 'right'),
                color = 'gray', 
                tooltip_message = 'Click to copy', tooltip_success = 'Done')
@@ -51,7 +44,7 @@ for(i in alignms){
 ### Concatenar los alineamientos individuales
 En este caso ya tenemos los alineamientos en formato `phylip`, solo tenemos que concatenarlos, para eso usamos `Bash`:
 
-```{bash, class.source='klippy_bash'}
+```{bash, class.source='klippy'}
 cd data/alignments
 
 ## En Bash tambien podemos iterar los alineamientos

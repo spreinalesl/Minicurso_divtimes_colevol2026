@@ -803,25 +803,63 @@ sitio web <a href="https://gaballench.github.io/StratIntervals.jl/stable/">https
 <p>Cargamos los paquetes y los datos:</p>
 <pre class="bash klippy"><code>using StratIntervals, Turing, Distributions, StatsPlots, Random, CSV, DataFrames</code></pre>
 <pre class="bash klippy"><code># leer los datos
-dataset = CSV.read(&quot;Sphyraenidae.csv&quot;, DataFrame)
+dataset = CSV.read(&quot;data/Istiophoridae.tsv&quot;, delim = &#39;\t&#39;, DataFrame)
+
+# calcular el punto medio del intervalo de edad de cada fosil para una edad puntual
+data = (dataset[:,6] .+ dataset[:,5])./2
+
+# definir priors
+theta1_prior = RefOffExponential(1, maximum(data), 1) # RefOffExp partiendo de la ocurrencia más antiga
+theta2_prior = 0.0 # theta2 fijado en el presente, el grupo es viviente
+lambda_prior = Normal(0.0, 4.0) # un prior amplio para lambda que debería ser informado por los datos 
+
 # especificar el objeto stratinterval
-barracuda_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
-# amostrar por MCMC
-post_sample = sample_stratinterval(barracuda_interval, 10000, NUTS(), false, false)
+istio_interval = StratInterval(data, theta1_prior, theta2_prior, lambda_prior)
+
+# muestrear por MCMC
+post_sample = sample_stratinterval(istio_interval, 10000, NUTS(), false, false)
+
 # graficar las cadenas de Markov
-plot(post_sample, plot_title=main_title)
+plot(post_sample)
 
 # graficar todo: datos, priors, posteriores
-histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, plot_title=main_title, xlim=xlim_interval, ylim=ylim_interval, label=&quot;Data&quot;)
-plot!(theta1_prior, plot_title=main_title, label=&quot;Prior&quot;, linewidth=3)
+histogram(data, bins=range(minimum(data), stop = maximum(data), length = 18), normalize=true, label=&quot;Data&quot;)
+plot!(theta1_prior, label=&quot;Prior&quot;, linewidth=3)
 density!(post_sample[:,&quot;θ1&quot;,:], label=&quot;Posterior&quot;, linewidth=3)
 
 # examinar las estadísticas sumario de las distribuciones posteriores
-DataFrame(describe(post_sample)[1]
-DataFrame(describe(post_sample)[2]</code></pre>
+julia&gt; describe(post_sample)[1]
+Summary Statistics
+  parameters      mean       std      mcse    ess_bulk    ess_tail      rhat   ess_per_sec 
+      Symbol   Float64   Float64   Float64     Float64     Float64   Float64       Float64 
+
+          θ1   58.6608    0.9301    0.0131   4177.0745   3355.4383    1.0000      331.1459
+           λ   -0.3006    0.1916    0.0030   4351.3636   3344.6220    1.0000      344.9630
+
+
+julia&gt; describe(post_sample)[2]
+Quantiles
+  parameters      2.5%     25.0%     50.0%     75.0%     97.5% 
+      Symbol   Float64   Float64   Float64   Float64   Float64 
+
+          θ1   57.6559   57.9813   58.4018   59.0511   61.1161
+           λ   -0.7177   -0.4243   -0.2857   -0.1601    0.0194</code></pre>
+<p>Viendo el gráfico de densidad del tiempo de originación, la moda de
+la curva está casi en 58.0. Usamos entonces tL siendo el cuantil 2.5%, p
+= moda - cuantil_2.5% = 0.4 Ma, es decir 0.004 en unidades de 100Ma, los
+cuantiles 2.5% y 97.5% de la función describe arriba, y la función
+c_truncauchy para encontrar c:</p>
+<pre class="r klippy"><code>## Vamos a estimar el parametro c de la distribucion L
+cistio &lt;- c_truncauchy(tl=0.5765, tr=0.611,
+                       p=0.0035, pr=0.975, al=0.025)
+
+print(cistio)</code></pre>
+<pre><code>## [1] 0.003424076</code></pre>
+<pre class="r klippy"><code>0.003424076</code></pre>
+<pre><code>## [1] 0.003424076</code></pre>
 <p>El prior de calibración usando este método fue definido de la
-siguiente forma: <code>L(0.57600,0.1,0.03609402,0.025)</code></p>
-<pre class="r klippy"><code>calib$calibstring[which(calib$id == &quot;n56&quot;)] &lt;- &quot;&#39;L[0.57600@0.1@0.03609402@0.025]&#39;&quot;</code></pre>
+siguiente forma: <code>L(0.5765,0.0035,0.00342,0.025)</code></p>
+<pre class="r klippy"><code>calib$calibstring[which(calib$id == &quot;n56&quot;)] &lt;- &quot;&#39;L[0.5765@0.0035@0.00342@0.025]&#39;&quot;</code></pre>
 <!--
 ### Construir un arbol de inicio
 Los árboles de inicio son utilizados de tres formas diferentes en los análisis de tiempos de divergencia: i) árboles aleatorios, cuando la topología y los tiempos de divergencia son coestimados (e.g. `Beast`), ii) cuando el análisis es complejo incluyendo muchas terminales y múltiples puntos de calibración, por lo que un buen árbol inicial ayuda a alcanzar convergencia más fácilmente, y iii) cuando se desea fijar la topología y solo estimar los tiempos de divergencia. Para construir un árbo inicial, los tiempos de los nodos deben ser compatibles con las densidades de calibración, de lo contrario, la probabilidad del árbol inicial es cero y también su probabilidad posterior. Esto genera un problema en programas como `Beast` que intentan un número finito de propuestas de árboles (e.g. 100); si todos fallan, el análisis no se inicia.
@@ -859,11 +897,11 @@ calibración y convertir el árbol a formato phylip.</p>
 ## la funcion write.tree cambia esos strings por -
 ## luego vamos a usar Bash para arreglar ese problema
 print(calib)</code></pre>
-<pre><code>##    id                       calibstring
-## 1 n76  &#39;L[0.72@0.001@0.01157324@0.025]&#39;
-## 2 n62    &#39;SN[0.4502984@0.05403769@0.0]&#39;
-## 3 n56 &#39;L[0.57600@0.1@0.03609402@0.025]&#39;
-## 4 n54                     &#39;B[0.95@1.2]&#39;</code></pre>
+<pre><code>##    id                      calibstring
+## 1 n76 &#39;L[0.72@0.001@0.01157324@0.025]&#39;
+## 2 n62   &#39;SN[0.4502984@0.05403769@0.0]&#39;
+## 3 n56 &#39;L[0.5765@0.0035@0.00342@0.025]&#39;
+## 4 n54                    &#39;B[0.95@1.2]&#39;</code></pre>
 <pre class="r klippy"><code>## Reemplazar los IDs de los nodos a calibrar por sus respectivos priors de calibracion
 for(i in calib$id){
   tree$node.label[which(tree$node.label == i)] &lt;- calib$calibstring[which(calib$id == i)]
