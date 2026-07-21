@@ -1,8 +1,8 @@
-## Minicurso de estimación de tiempos de divergencia - Colevol2026
+# Minicurso de estimación de tiempos de divergencia - Colevol2026
 
-### Intalación de conda
+## Intalación Windows Subsystem for Linux y ambiente de conda
 
-# Prerrequisitos
+### Prerrequisitos
 
 Este procedimiento asume que el usuario tiene una máquina con sistema operativo Windows 11.
 
@@ -10,7 +10,7 @@ Los pasos siguientes fueron probados en una máquina virtual con el sistema oper
 
 Si el usuario tiene un sistema operativo Unix (e.g., Linux, OSX) simplemente debe omitir la parte inicial de configuración del sistema Linux para Windows y avanzar hacia el paso de instalación de miniconda.
 
-# Windows Subsystem for Linux
+### Windows Subsystem for Linux
 
 Seguir estos pasos para instalar el WSL: https://learn.microsoft.com/es-mx/windows/wsl/install. Para algunos sistemas, puede ser necesario activar hypervirtualización.
 
@@ -39,7 +39,7 @@ wsl --install -d ubuntu
 
 Esto debería finalizar la instalación de Ubuntu. Para iniciar Linux, busque la aplicación Ubuntu (Tecla Win y Ubuntu).
 
-# Instalación de conda
+### Instalación de conda
 
 La distribución más liviana y simple de instalar es miniconda (ver detalles en https://repo.anaconda.com/miniconda/ Con los siguientes comandos puede bajar el instalador e instalar conda en el sistema.
 
@@ -59,7 +59,7 @@ Al ejecutar, debe aceptar los términos (yes/si), posteriormente dar enter en la
 
 Ya que tenemos conda en Linux, podemos instalar muy fácilmente todos los programas necesarios para el curso, como se describe a continuación.
 
-### Introducción
+## Introducción
 
 La mayoría, si no todos, los métodos usados recientemente en biología evolutiva requieren filogenias en tiempo explícito/absoluto como *input* debido a que están basados en modelos markovianos de tiempo continuo. Sin embargo, en los árboles resultantes de la inferencia filogenética, las longitudes de rama representan una **combinación del número esperado de cambios por sitio y el tiempo** necesario para que dichos cambios se acumulen a lo largo de las ramas. Por esa razón, usar métodos que estimen esas longitudes de rama en unidades de tiempo absoluto resulta fundamental para análisis comparativos como evolución morfológica, biogeografía o estimacion de dinámicas macroevolutivas.
 
@@ -80,15 +80,11 @@ En este tutorial vamos a estimar los tiempos de divergencia para la familia Cent
 
 Estos programas fueron instalados previamente en un ambiente de `conda`. Para descargarlo, descomprimirlo y activarlo seguir las indicaciones a continuación:
 
-```{bash, class.source='klippy_bash', eval=FALSE}
-cd Minicurso_divtimes_colevol2026
-```
-
 [Bajar este archivo de Dropbox](https://www.dropbox.com/scl/fi/pbbz8baq9rimcal19v0t7/divtimes.tar.gz?rlkey=emxt6cvu4lkpx2v54xcguqtsw&st=kyt20zid&dl=0)
 
 ```{bash, class.source='klippy_bash', eval=FALSE}
-mkdir ~/.conda/envs/divtimes
-tar -xzvf divtimes.tar.gz -C ~/.conda/envs/divtimes/
+mkdir ~/Miniconda3/envs/divtimes
+tar -xzvf divtimes.tar.gz -C ~/Miniconda3/envs/divtimes/
 ```
 
 Ahora solo necesitamos activar el ambiente de conda y correr el comando `conda-unpack` que terminal de configurar las rutas. Importante, sin este paso, algunos programas pueden no funcionar.
@@ -97,6 +93,7 @@ Ahora solo necesitamos activar el ambiente de conda y correr el comando `conda-u
 conda activate divtimes
 conda-unpack
 ```
+
 ### Datos:
 
 - Necesitamos una filogenia previamente estimada, de hecho, solo la topología (i.e. las relaciones filogenéticas entre los taxones) puesto que vamos a estimar las longitudes de rama en tiempo absoluto a lo largo del análisis. Esa filogenia debe ser **enraizada** y totalmente resuelta, es decir, sin politomias (**binary tree**), y debe estar en formato Newick **sin longitudes de rama**. Detallaremos el formato del árbol más adelante.
@@ -106,6 +103,13 @@ conda-unpack
 - Información de tiempo independiente para definir *constrains* temporales en algunos nodos de la filogenia (**calibration priors**). Esa información de tiempo será incluida directamente en el archivo del árbol como veremos más adelante.
 
 Estos archivos están disponibles en el repositorio en la carpeta [data](https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/tree/main/data). Para garantizar la estabilidad de los scripts incluidos en este tutorial, recomendamos fuertemente que la **estructura de carpetas y los nombres** tanto de las carpetas como de los archivos **no sean alterados**.
+
+Para acceder a los datos, clone este repositorio:
+
+```{bash, class.source='klippy_bash', eval=FALSE}
+git clone https://github.com/spreinalesl/Minicurso_divtimes_colevol2026.git
+cd Minicurso_divtimes_colevol2026
+```
 
 ### Pasos del análisis:
 
@@ -121,4 +125,4 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Seleccionar el modelo de reloj [Tutorial5](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial5_modelselc.html).
 
-- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6]().
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial6_divtimest.html).
