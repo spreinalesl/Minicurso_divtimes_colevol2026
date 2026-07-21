@@ -1,0 +1,70 @@
+---
+title: "Tutorial6: Estimación de tiempos de divergencia"
+author: "Sandra Reinales & Gustavo Ballen"
+output: html_document
+---
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(c('r', 'bash'),
+               position = c('top', 'right'),
+               color = 'gray', 
+               tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+Una vez definidos los *priors* de calibración (tutorial1) y el modelo de reloj que vamos a usar para nuestro análisis de tiempos de divergencia (tutorial5), podemos correr `MCMCtree` usando el gradiente y la matriz hessiana que estimamos anteriormente (tutorial4).
+
+### Preparar el *control file*
+
+Vamos a la terminal, creamos un directorio para el análisis, copiamos allí el *control file* y lo editamos.
+
+```{bash, class.source='klippy', eval=FALSE}
+## Asumiendo que estamos en el directorio principal del curso
+pwd # Siempre es bueno revisar
+mkdir -p divtimest
+cp data/mcmctree.ctl divtimest/
+
+## Vamos a editar el *control file*
+cd divtimest
+
+# Definir usedata
+sed -r -i 's/usedata = 0/usedata = 2 ..\/..\/approximate\/in.BV/g' mcmctree.ctl
+
+# Definir clock. En el tutorial 5 seleccionamos independent clock
+sed -r -i 's/clock = 1/clock = 2/g' mcmctree.ctl
+
+## Definir ruta para los archivos de datos
+sed -r -i 's/seqfile = ..\/data\/concatenated.phylip/seqfile = ..\/..\/data\/concatenated.phylip/g' mcmctree.ctl
+
+sed -r -i 's/treefile = ..\/data\/startingTree.phy/treefile = ..\/..\/data\/startingTree.phy/g' mcmctree.ctl
+
+## Revisemos
+less mcmctree.ctl
+```
+
+Es recomendable ejecutar varias corridas independientes de `MCMCtree` con el fin de evaluar la convergencia de las mismas. Para fines de este ejercicio vamos a correr el análisis tres veces. Lo podemos hacer manualmente o usando un *loop*.
+
+```{bash, class.source='klippy', eval=FALSE}
+## Asumiendo que continuamos en divtimest
+## crear los directorios para las corridas independientes 
+mkdir -p run1 run2 run3
+
+## Ahora vamos a copiar el *control file* en cada carpeta
+cp mcmctree.ctl run1/
+cp mcmctree.ctl run2/
+cp mcmctree.ctl run3/
+
+## Finalmente vamos a usar un *loop* par correr `MCMCtree`
+for d in `seq 1 1 3`; do cd run$d; mcmctree; cd ..; done
+```
+
+Después de unos minutos tendremos los resultados del análisis. `MCMCtree` genera un archivo te texto llamado `mcmc.txt` donde están los estimados posteriores de cada uno de los parámetros del modelo incluyendo los estimados de tiempo para cada nodo de la filogenia. Esto es lo que conocemos como *posterior distribution* para cada parámetro.
+
+Podemos usar `Tracer`para revisar detalladamente ese archivo de salida. Este programa permite visualizar el comportamiento del `MCMC`. Vamos a la terminal:
+
+```{bash, class.source='klippy', eval=FALSE}
+## Asumiendo que estamos en divtimest
+tracer run1/mcmc.txt # para cargar solo la primera corrida
+
+## Tambien podemos cargar todas las corridas
+tracer run1/mcmc.txt run2/mcmc.txt run3/mcmc.txt
+```
