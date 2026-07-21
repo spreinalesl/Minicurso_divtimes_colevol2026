@@ -1,5 +1,64 @@
 ## Minicurso de estimación de tiempos de divergencia - Colevol2026
 
+### Intalación de conda
+
+# Prerrequisitos
+
+Este procedimiento asume que el usuario tiene una máquina con sistema operativo Windows 11.
+
+Los pasos siguientes fueron probados en una máquina virtual con el sistema operativo mencionado anteriormente, no se garantiza que funcionen con Windows 10, que ya no va a recibir actualizaciones de seguridad.
+
+Si el usuario tiene un sistema operativo Unix (e.g., Linux, OSX) simplemente debe omitir la parte inicial de configuración del sistema Linux para Windows y avanzar hacia el paso de instalación de miniconda.
+
+# Windows Subsystem for Linux
+
+Seguir estos pasos para instalar el WSL: https://learn.microsoft.com/es-mx/windows/wsl/install. Para algunos sistemas, puede ser necesario activar hypervirtualización.
+
+Posteriormente, instalar Ubuntu bajo el WSL.
+
+Si no es posible usar hypervirtualización, los siguientes pasos han sido útiles en una máquina virtual para usar el WSL versión 1: https://forums.virtualbox.org/viewtopic.php?p=552168&sid=a:50bab1768a5d49201b1f717906e1c890#p552168
+
+Se copian abajo los pasos relevantes:
+
+Asegúrese de que Hyper-V está desactivado en su sistema operativo(seleccione "Activar o desactivar recursos de Windows", des-seleccione Hyper-V y reinicie el computador).
+
+Abra la consola Powershell (tecla Win y buscar powershell), click derecho y de click en "Ejecutar como administrador".
+
+Copie este comando, péguelo en el Powershell:
+
+```
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+```
+
+Después reinicie el computador. Abra nuevamente Powershell como administrador y ejecute los siguientes comandos:
+
+```
+wsl --set-default-version 1
+wsl --install -d ubuntu
+```
+
+Esto debería finalizar la instalación de Ubuntu. Para iniciar Linux, busque la aplicación Ubuntu (Tecla Win y Ubuntu).
+
+# Instalación de conda
+
+La distribución más liviana y simple de instalar es miniconda (ver detalles en https://www.anaconda.com/docs/getting-started/miniconda/install/). Con los siguientes comandos puede bajar el instalador e instalar conda en el sistema.
+
+Primero, abra Ubuntu como se indicó anteriormente. Después, baje el instalador con este comando en la línea de comandos de Ubuntu (bash):
+
+```
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+```
+
+Ahora, ejecute el instalador con este comando:
+
+```
+bash ./Miniconda3-latest-MacOSX-arm64.sh
+```
+
+Al ejecutar, debe aceptar los términos (yes/si), posteriormente dar enter en la ubicación default de instalación, y cuando el instalador pregunte si autocargar, decir que sí (yes/si). Esto último permitirá que cada vez que se abra Ubuntu, conda esté activado automáticamente.
+
+Ya que tenemos conda en Linux, podemos instalar muy fácilmente todos los programas necesarios para el curso, como se describe a continuación.
+
 ### Introducción
 
 La mayoría, si no todos, los métodos usados recientemente en biología evolutiva requieren filogenias en tiempo explícito/absoluto como *input* debido a que están basados en modelos markovianos de tiempo continuo. Sin embargo, en los árboles resultantes de la inferencia filogenética, las longitudes de rama representan una **combinación del número esperado de cambios por sitio y el tiempo** necesario para que dichos cambios se acumulen a lo largo de las ramas. Por esa razón, usar métodos que estimen esas longitudes de rama en unidades de tiempo absoluto resulta fundamental para análisis comparativos como evolución morfológica, biogeografía o estimacion de dinámicas macroevolutivas.
@@ -62,4 +121,4 @@ Ya que tenemos el software y los datos requeridos para correr nuestros análisis
 
 - Seleccionar el modelo de reloj [Tutorial5](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial5_modelselc.html).
 
-- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6](https://html-preview.github.io/?url=https://github.com/spreinalesl/Minicurso_divtimes_colevol2026/blob/main/tutorial6_divtimest.html).
+- Correr las cadenas de `MCMC` para estimar los tiempos de divergencia y revisar los resultados del análisis [Tutorial6]().
