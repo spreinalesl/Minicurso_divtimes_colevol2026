@@ -59,7 +59,9 @@ for d in `seq 1 1 3`; do cd run$d; mcmctree; cd ..; done
 
 Después de unos minutos tendremos los resultados del análisis. `MCMCtree` genera un archivo te texto llamado `mcmc.txt` donde están los estimados posteriores de cada uno de los parámetros del modelo incluyendo los estimados de tiempo para cada nodo de la filogenia. Esto es lo que conocemos como *posterior distribution* para cada parámetro.
 
-Podemos usar `Tracer`para revisar detalladamente ese archivo de salida. Este programa permite visualizar el comportamiento del `MCMC`. Vamos a la terminal:
+Podemos usar `Tracer`para revisar detalladamente ese archivo de salida. Este programa permite visualizar el comportamiento del `MCMC`.
+
+Vamos a la terminal:
 
 ```{bash, class.source='klippy', eval=FALSE}
 ## Asumiendo que estamos en divtimest
@@ -68,3 +70,74 @@ tracer run1/mcmc.txt # para cargar solo la primera corrida
 ## Tambien podemos cargar todas las corridas
 tracer run1/mcmc.txt run2/mcmc.txt run3/mcmc.txt
 ```
+
+Podemos examinar también el comportamiento de la media *prior* y la media posterior de la edad de cada nodo, así como el intervalo de 95% HPD.
+
+Vamos a `R` para leer los resultados del análisis de *sample from prior* (tutorial3) y los resultados de `MCMCtree` que acabamos de correr. 
+
+```{r fig.height=5, fig.width=5,, class.source='klippy'}
+## Revisar donde estamos
+getwd()
+
+## Asumiendo que estamos en el directorio principal del curso
+## Leer el archivo del prior
+prior <- read.delim("sFRp/mcmc.txt")
+
+## Ahora leámos la posterior
+posterior <- read.delim("divtimest/run1/mcmc.txt")
+```
+
+Ahora usemos la función `crossplot` de ´tbea` para graficar *prior* vs *posterior*.
+
+```{r fig.height=5, fig.width=5,, class.source='klippy'}
+library(tbea)
+
+## Primero vamos a graficar los nodos calibrados
+## Para eso tengo que saber en que columna estan
+nodes <- c(which(colnames(prior) == "t_n54"), # Root
+           which(colnames(prior) == "t_n57"), # Istiophoridae
+           which(colnames(prior) == "t_n63"), # Carangidae
+           which(colnames(prior) == "t_n77")) # Sphyrenidae
+
+## Ahora si el grafico
+crossplot(prior, posterior,
+          idx.cols=nodes,
+          stat="mean",
+          bar.lty=1,
+          bar.lwd=1,
+          identity.lty=2,
+          identity.lwd=1,
+          extra.space=0.5,
+          main="Prior vs Posterior calibrated nodes",
+          xlab="Prior age",
+          ylab="Postrior age",
+          pch=19)
+
+## Que tal todos los nodos
+crossplot(prior, posterior,
+          pattern="t_n",
+          stat="mean",
+          bar.lty=1,
+          bar.lwd=1,
+          identity.lty=2,
+          identity.lwd=1,
+          extra.space=0.5,
+          main="Prior vs Posterior all nodes",
+          xlab="Prior age",
+          ylab="Postrior age",
+          pch=19)
+```
+
+También podemos estar interesados en revisar el efecto del *prior* sobre la posterior para un nodo particular. Podemos usar nuevamente `tbea`para esto. 
+
+```{r fig.height=5, fig.width=5,, class.source='klippy'}
+## Integra el area bajo la curva
+measureSimil(d1=prior$t_n63,
+             d2=posterior$t_n63,
+             ylim=c(0, 10),
+             xlab="Age (Ma)",
+             ylab="Density",
+             main="Similarity between prior and posterior\nof the node Carangidae")
+```
+
+Finalmente, cómo combinar corridas independientes?
