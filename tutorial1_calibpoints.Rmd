@@ -51,7 +51,7 @@ plot.phylo(x=ladderize(phy=tree, right=FALSE),
 nodelabels(cex=0.55, frame="circle", bg="white")
 ```
 
-Dado que el árbol que la topología que vamos a fijar para el análisis con MCMCtree no debe tener longitudes de rama:
+Dado que la topología que vamos a fijar para el análisis con `MCMCtree` no debe tener longitudes de rama:
 
 ```{r, class.source='klippy', results='hide'}
 ## Remover longitudes de rama para MCMCtree
