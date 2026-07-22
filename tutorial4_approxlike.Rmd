@@ -1,5 +1,5 @@
 ---
-title: "Tutorial3: Cálculo de la verosimilitud aproximada"
+title: "Tutorial4: Cálculo de la verosimilitud aproximada"
 author: "Sandra Reinales & Gustavo Ballen"
 output: html_document
 ---
