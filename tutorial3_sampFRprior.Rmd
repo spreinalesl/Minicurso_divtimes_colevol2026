@@ -28,7 +28,7 @@ cd sFRp
 mcmctree
 ```
 
-Ahora vamos a comparar la distribución *prior* designada por nosotros con la densidad de calibración que va a ser usada por el programa (i.e. *prior* efectivo). Más adelante podrémos comparar también esas densidades *prior* con la posterior para detentar interdependencia, o algún sesgo específico.
+Ahora vamos a comparar la distribución *prior* designada por nosotros con la densidad de calibración que va a ser usada por el programa (i.e. *prior* efectivo). Más adelante podremos comparar también esas densidades *prior* con la posterior para detectar interdependencia o algún sesgo específico.
 
 Primero vamos a leer el archivo de salida de `mcmctree` en `R`:
 
@@ -39,15 +39,16 @@ library(tbea)
 library(mcmc3r)
 ```
 
-Grafiquemos de nuevo el prior de calibración que definimos para este nodo en el tutorial1
+Grafiquemos de nuevo el *prior* de calibración que definimos para este nodo en el tutorial1
 
 ```{r fig.height=5, fig.width=5, class.source='klippy'}
-# Recordemos que el valor del parametro c de la distribucion L fue:
-cparam <- 0.01157324
+## Recordemos que el valor del parametro c de la distribucion L
+## para el nodo de Istiophoridae
+cparam <- 0.03609402
 
-## Usar la funcion dL
-curve(dL(x, tL=0.56, p=0.0001, c=cparam),
-      from=0.55, to=0.72, n=1000)
+curve(dL(x, tL=0.57600, p=0.0001, c=cparam),
+      from=0.5, to=0.9, n=1000)
+legend(x="topright", legend="User prior", col="black", lty=1)
 ```
 
 Ahora usemos la muestra posterior del análisis *sample from prior* para ese nodo:
@@ -56,16 +57,29 @@ Ahora usemos la muestra posterior del análisis *sample from prior* para ese nod
 ## Leer el archivo
 prior <- read.delim("sFRp/mcmc.txt")
 head(prior[,c(1:7)])
+```
 
+Debido a que `MCMCtree` nombra nuevamente los nodos de la filogenia, vamos a graficar el árbol de salida que está en el archivo `out.log` para entender la correspondencia de los nodos.
+
+```{bash, class.source='klippy', eval=FALSE}
+## Asumiendo que estamos en sFRp
+grep -n "Species tree for FigTree" out.log # Buscamos la linea donde esta el arbol
+sed -n '1045p' out.log > out.tre # Extraemos la informacion del arbol y la copiamos en un nuevo archivo
+
+## Usamos figtree para graficar el arbol y activamos los node labels
+figtree out.tre
+```
+
+Volvemos a `R`:
+
+```{r fig.height=5, fig.width=5,, class.source='klippy'}
 ## Vamos a construir una densidad con los valores de distribucion posterior
-effPriorSphyren <- density(prior$t_n76)
-print(effPriorSphyren)
+effPriorIstiopho <- density(prior$t_n57)
+print(effPriorIstiopho)
 
 ## Ahora dibujemos el prior efectivo sobre el prior del usuario
-plot(x=effPriorSphyren$x, y=effPriorSphyren$y, type="l", col="blue2")
-
-polygon(x=effPriorSphyren$x, y=effPriorSphyren$y,
-        col=rgb(red=0, blue=1, green=0, alpha=0.3))
+plot(x=effPriorIstiopho$x, y=effPriorIstiopho$y, type="l", col="blue2")
+legend(x="topright", legend="Effective prior", col="blue2", lty=1)
 ```
 
 **Cómo lucen los demás nodos calibrados?**
