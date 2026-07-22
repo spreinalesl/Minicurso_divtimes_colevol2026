@@ -13,13 +13,15 @@ klippy::klippy(c('r', 'bash'),
 
 En `MCMCTree` la selección del modelo de reloj molecular usado para inferencia de tiempos de divergencia de un linaje se lleva a cabo mediante la estimación de la **probabilidad marginal de cada modelo**, y luego, calculando el factor de Bayes o probabilidad posterior del mismo (i.e. selección bayesiana del modelo de reloj).
 
-`MCMCTree` implementa tres modelos de reloj: el modelo de movimiento browniano geométrico ('GBM`), el modelo log-normal independiente (`ILN`) y el modelo de reloj estricto (`CLK`) ^[Rannala, B. and Yang, Z., 2007. Inferring speciation times under an episodic molecular clock. Systematic biology, 56(3), pp.453-466.].
+`MCMCTree` implementa tres modelos de reloj: el modelo de movimiento browniano geométrico (`GBM`), el modelo log-normal independiente (`ILN`) y el modelo de reloj estricto (`CLK`) ^[Rannala, B. and Yang, Z., 2007. Inferring speciation times under an episodic molecular clock. Systematic biology, 56(3), pp.453-466.].
 
 Este tutorial está basado en el tutorial de Mario dos Reis, disponible [aquí](https://dosreislab.github.io/2017/10/24/marginal-likelihood-mcmc3r.html).
 
 ### Preparar el directorio para el análisis de reloj estricto
 
 Vamos a crear un directorio nuevo y allí vamos a copiar el *control file* y el archivo `in.BV` que acabamos de obtener producto del análisis de verosimilitud aproximada.
+
+En terminal:
 
 ```{bash, class.source='klippy', eval=FALSE}
 mkdir -p clk
@@ -28,7 +30,7 @@ cp data/mcmctree.ctl clk/
 
 Ahora tenemos que editar el *control file* para usar `usedata=2` con el fin de usar el gradiente y matriz hessiana (`in.BV`) y `clock=1` que significa reloj estricto (*strict clock* - CLK). Es posible agregar la ruta al archivo `in.BV` en vez de copiarlo en cada una de los directorios. 
 
-Un paso más adelante el paquete `mcmc3` va a crear un sistema de directorios y va a copiar el *control file* entonces tenemos que ajustar la ruta a los archivos de entrada (i.e. árbol inicial y la matrix con los alineamientos) para que `mcmctree` los pueda encontrar.
+Un paso más adelante el paquete `mcmc3r` va a crear un sistema de directorios y va a copiar el *control file* entonces tenemos que ajustar la ruta a los archivos de entrada (i.e. árbol inicial y la matriz con los alineamientos) para que `MCMCtree` los pueda encontrar.
 
 ```{bash, class.source='klippy', eval=FALSE}
 cd clk
@@ -46,7 +48,9 @@ less mcmctree.ctl
 nano mcmctree.ctl
 ```
 
-Usando el paquete de R `mcmc3` seleccionaremos 4 puntos `b` para estimar la probabilidad marginal del reloj estricto utilizando el método de pasos (*stepping stones*). En `R` vamos a correr lo siguiente:
+Usando el paquete de R `mcmc3r` seleccionaremos 4 puntos `b` para estimar la probabilidad marginal del reloj estricto utilizando el método de pasos (*stepping stones*).
+
+En `R` vamos a correr lo siguiente:
 
 ```{r, class.source='klippy', eval=FALSE}
 library(mcmc3r)
@@ -72,7 +76,7 @@ for d in `seq 1 1 4`; do cd $d; mcmctree; cd ..; done
 
 ### Preparar los directorios para el análisis del modelo independiente y el modelo autocorrelacionado 
 
-Vamos de nuevo a `Bash` para crear dos directorios adicionales, uno para el modelo independiente (ILN) y otro para el modelo autocorrelacionado (GBM).
+Vamos de nuevo a la terminal para crear dos directorios adicionales usando `Bash`, uno para el modelo independiente (ILN) y otro para el modelo autocorrelacionado (GBM).
 
 ```{bash, class.source='klippy', eval=FALSE}
 cd ..
@@ -116,7 +120,7 @@ sed -r -i 's/seqfile = ..\/data\/concatenated.phylip/seqfile = ..\/..\/data\/con
 sed -r -i 's/treefile = ..\/data\/startingTree.phy/treefile = ..\/..\/data\/startingTree.phy/g' mcmctree.ctl
 ```
 
-Ahora volvamos a R para que podamos preparar las *stones* y los directorios para cada uno de los modelos adicionales.
+Ahora volvamos a `R` para que podamos preparar las *stones* y los directorios para cada uno de los modelos adicionales.
 
 ```{r, class.source='klippy', eval=FALSE}
 ## b ya fue calculado asumiendo que esta cargado en el ambiente de trabajo
@@ -144,8 +148,11 @@ cd ..
 
 ### Leámos los resultados de cada uno de los modelos de reloj usando `mcmc3r`
 
+Vamos a `R`
+
 ```{r, class.source='klippy', warning=FALSE}
 ## Leer los valores de log-verosimilitud  de cada stone y calcular la log-verosimilitud marginal
+
 ## Asumiendo que estamos en el directorio principal del repositorio
 setwd("clk")
 clk <- mcmc3r::stepping.stones()
