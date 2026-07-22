@@ -21,10 +21,18 @@ mkdir -p sFRp
 cp data/mcmctree.ctl sFRp/
 ```
 
-No necesitamos editar el *control file* porque nuestro template ya está configurado en `usedata=0`. Sólo vamos al directorio y corremos `MCMCtree`
+Ahora vamos a editar el *control file* para usar el modelo de reloj independiente ILN. Nuestro *control file* ya está configurado en `usedata=0`.
 
 ```{bash, class.source='klippy', eval=FALSE}
 cd sFRp
+
+## Definir clock
+sed -r -i 's/clock = 1/clock = 2/g' mcmctree.ctl
+
+## Revisemos
+less mcmctree.ctl
+
+## Corramos `MCMCtree`
 mcmctree
 ```
 

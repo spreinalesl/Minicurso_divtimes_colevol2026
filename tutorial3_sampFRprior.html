@@ -540,10 +540,18 @@ que el prior efectivo parezca más razonable.</p>
 <pre class="bash klippy"><code>## Asumiendo que estamos en el directorio princial del repositorio
 mkdir -p sFRp
 cp data/mcmctree.ctl sFRp/</code></pre>
-<p>No necesitamos editar el <em>control file</em> porque nuestro
-template ya está configurado en <code>usedata=0</code>. Sólo vamos al
-directorio y corremos <code>MCMCtree</code></p>
+<p>Ahora vamos a editar el <em>control file</em> para usar el modelo de
+reloj independiente ILN. Nuestro <em>control file</em> ya está
+configurado en <code>usedata=0</code>.</p>
 <pre class="bash klippy"><code>cd sFRp
+
+## Definir clock
+sed -r -i &#39;s/clock = 1/clock = 2/g&#39; mcmctree.ctl
+
+## Revisemos
+less mcmctree.ctl
+
+## Corramos `MCMCtree`
 mcmctree</code></pre>
 <p>Ahora vamos a comparar la distribución <em>prior</em> designada por
 nosotros con la densidad de calibración que va a ser usada por el
@@ -556,8 +564,8 @@ interdependencia o algún sesgo específico.</p>
 library(ape)
 library(tbea)
 library(mcmc3r)</code></pre>
-<p>Grafiquemos de nuevo el prior de calibración que definimos para este
-nodo en el tutorial1</p>
+<p>Grafiquemos de nuevo el <em>prior</em> de calibración que definimos
+para este nodo en el tutorial1</p>
 <pre class="r klippy"><code>## Recordemos que el valor del parametro c de la distribucion L
 ## para el nodo de Istiophoridae
 cparam &lt;- 0.03609402

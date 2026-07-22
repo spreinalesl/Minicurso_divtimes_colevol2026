@@ -48,7 +48,7 @@ less mcmctree.ctl
 nano mcmctree.ctl
 ```
 
-Usando el paquete de R `mcmc3r` seleccionaremos 4 puntos `b` para estimar la probabilidad marginal del reloj estricto utilizando el método de pasos (*stepping stones*). Idealmente debemos correr muchas más *stones*, por ejemplo, **64 *stones* para estimar mayor precisión la verosimilitud marginal de cada modelo**.
+Usando el paquete de R `mcmc3r` seleccionaremos 4 puntos `b` para estimar la probabilidad marginal del reloj estricto utilizando el método de pasos (*stepping stones*). Idealmente debemos correr muchas más *stones*, por ejemplo, **64 *stones* para estimar con mayor precisión la verosimilitud marginal de cada modelo**.
 
 En `R` vamos a correr lo siguiente:
 
