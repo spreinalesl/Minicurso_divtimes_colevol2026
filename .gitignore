@@ -1,8 +1,15 @@
 # Ignore log files
-*.log
+#*.log
 
 # Ignore temporary files
-*.tmp
+#*.tmp
 
 # Ignore source files
 #*.Rmd
+
+sFRp/
+iln/
+gbm/
+divtimest/
+clk/
+approximate/
